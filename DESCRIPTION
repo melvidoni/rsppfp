@@ -1,0 +1,23 @@
+Package: rsppfp
+Title: R's Shortest Path Problem with Forbidden Subpaths
+Version: 2.0.0.0
+Authors@R: c(person("Melina", "Vidoni", email = "melinavidoni@santafe-conicet.gov.ar", role = c("aut", "cre")),
+             person("Aldo", "Vecchietti", email = "aldovec@santafe-conicet.gov.ar", role = "aut"))
+Maintainer: Melina Vidoni <melinavidoni@santafe-conicet.gov.ar>
+Description: An implementation of functionalities to transform directed graphs that are bound to a set of
+  known forbidden paths. There are several transformations, following the rules provided by Villeneuve 
+  and Desaulniers (2005), and Hsu et al. (2009). The resulting graph is generated in a data-frame format. See
+  R-SPPFP website for more information, documentation an examples.
+Depends: R (>= 3.4.0)
+Imports: dplyr,
+    magrittr,
+    foreach,
+    doParallel
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr

@@ -1,0 +1,2 @@
+# Package-private functions start with a dot.
+exportPattern("^[^\\.]")
