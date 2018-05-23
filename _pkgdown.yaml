@@ -1,0 +1,41 @@
+title: R-SPPFP
+url: http://melvidoni.github.io/RSPPFP
+
+reference:
+  - title: Parser Functions
+    desc: Functions that parse inputs to be used by the main algorithms, or outputs generated from the translated graphs.
+    contents:
+      - '`parse_vpath`'
+      - '`direct_graph`'
+      
+  - title: Digraphs Transformations
+    desc: Implementations of algorithms to transform a graph and its set of forbidden paths.
+    contents:
+      - '`modify_graph_vd`'
+      - '`modify_graph_hsu`'
+      
+      
+navbar:
+  type: inverse
+  left:
+    - icon: fa-home
+      href: index.html
+      
+    - text: "Documentation"
+      href: reference/index.html
+      
+    - text: "Articles"
+      menu:
+        - text: "R-SPPFP Details"
+          href: "articles/rsppfp.html"
+        - text: "Transformations Benchmark"
+          href: "articles/benchmark.html"
+        - text: "Example: iGraph Integration"
+          href: "articles/igraph.html"
+          
+    - text: "References"
+      href: "articles/references.html"
+          
+    - icon: fa-github
+      text: "GitHub"
+      href: https://github.com/melvidoni/rsppfp

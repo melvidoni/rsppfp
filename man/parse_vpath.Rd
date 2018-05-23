@@ -26,9 +26,6 @@ translated_vpath <- parse_vpath( c("s|u", "s|u|v", "u|v|y", "t") )
 # Print the result
 translated_vpath
 
-[1]
-"u" "v" "y" "t"
-
 
 }
 \seealso{

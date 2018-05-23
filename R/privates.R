@@ -31,6 +31,6 @@
 #' @return A list of the attributes for the corresponding arc. Since this function is called from a controlled
 #'    space, it assumes that the arc always exists.
 #'
-.get_arc_attributes <- function(g, from, to) {
-  subset(g, from == from & to == to)[1,3:length(colnames(g))]
+.get_arc_attributes <- function(g, f, t) {
+  subset(g, from == f & to == t)[1,3:length(colnames(g))]
 }

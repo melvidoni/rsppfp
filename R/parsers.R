@@ -19,9 +19,6 @@
 #' # Print the result
 #' translated_vpath
 #'
-#' [1]
-#' "u" "v" "y" "t"
-#'
 #'
 parse_vpath <- function(vpath) {
   # Create al alternative vector of the same length
@@ -37,14 +34,6 @@ parse_vpath <- function(vpath) {
   # Return the new path
   return(altVPath)
 }
-
-
-
-#' @title Alias function for foreach's dopar
-#'
-#' @description Provides an alias for dopar, so it can be used inside this package.
-#'
-`%dopar%` <- foreach::`%dopar%`
 
 
 
@@ -66,13 +55,18 @@ parse_vpath <- function(vpath) {
 #'
 #' @return A new graph, with the same columns and data types of the original graph. This new graph is twice as
 #'    big as the original, as new arcs are added to represent that each arc can be traveled in both directions.
-#'
+#' 
 #' @examples
 #' # Obtain the graph from any way
-#' undirected_graph <- read.csv(...)
+#' graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+#'                        to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
+#'                        cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L)),
+#'                    .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+#' graph                    
 #'
 #' # Translate it
-#' digraph <- direct_graph(undirected_graph)
+#' digraph <- direct_graph(graph)
+#' digraph
 #'
 #'
 direct_graph <- function(graph, cores = 1L) {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/index.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/reference/direct_graph.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/reference/modify_graph_hsu.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/reference/modify_graph_vd.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/reference/parse_vpath.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/reference/rsppfp.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/articles/benchmark.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/articles/igraph.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/articles/references.html</loc>
+  </url>
+  <url>
+    <loc>http://melvidoni.github.io/RSPPFP/articles/rsppfp.html</loc>
+  </url>
+</urlset>

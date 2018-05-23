@@ -37,16 +37,20 @@ This version of the algorithm produce smaller graphs, with less new nodes and ar
 }
 \examples{
 # Obtain a graph and its forbidden subpaths
-graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"),
-                        to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
-                        .Names = c("from", "to"), class = "data.frame", row.names = c(NA, -13L))
-fpaths <- structure(list(V1 = c("u", "u", "w", "x"), V2 = c("v", "w", "v", "w"), V3 = c("y", "y", "y", "v"),
-                         V4 = c("u", "u", "", "y"), V5 = c("", "", "", "t")),
-                   .Names = c("V1", "V2", "V3", "V4", "V5"), class = "data.frame", row.names = c(NA, -4L))
+graph <- structure(list(from = c("c", "c", "u", "u", "t", "a", "a", "r", "e", "e", "e", "p", "i", "i", "n", "o"),
+                        to = c("u", "p", "e", "t", "a", "r", "i", "u", "r", "i", "p", "n", "n", "o", "o", "m")),
+                   .Names = c("from", "to"), row.names = c(NA, -16L), class = "data.frame")
+fpaths <- structure(list(u = c("u", "p", "a"), e = c("t", "n", "i"), r = c("a", "o", "n"), 
+                         u_1 = c("r", "m", "o"), X5 = c("u", NA, NA)),
+                    .Names = c("u", "e", "r", "u_1", "X5"), row.names = c(NA, -3L), class = "data.frame")
+
+# Show the input
+graph
+fpaths
 
 # Call the function and store the result
 gStar <- modify_graph_hsu(graph, fpaths)
-
+gStar
 
 }
 \seealso{

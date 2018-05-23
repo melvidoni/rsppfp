@@ -1,0 +1,87 @@
+---
+title: "R-SPPFP Description"
+output: rmarkdown::html_vignette
+import: rsppfp
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(rsppfp)
+library(foreach)
+library(doParallel)
+library(magrittr)
+library(dplyr)
+```
+
+**R-SPPFP** is a package that enables the transformation of graphs, and their sets of forbidden paths, to use them later with other tools. As it is part of an undergoing project, new functionalities could be added in the future.
+
+
+## Input Data
+**R-SPPFP** manipulates input and output in standard R data frame formats, maximizing its compatibility with other packages, and allowing its results to blend in with other networking tools. In the transformation functions, the primary input data consists of two different data frames and an additional parameter for parallel processing. 
+
+First, `g`  represents the original graph as a data frame of arcs. Arcs are mainly represented as origin-destination pairs, with the column names `from` and `to`, respectively. These two columns need to be in positions `1:2` of the data frame. Each arc may or not may have additional attributes, and this is handled internally. The nodes names may be of any simple type, such as character, integer, double, and others; _however, the returned graph will have nodes of character type_.
+
+Second, `f` represents the data frame of forbidden paths, where each row of the data frame is a path. The paths may be of different lengths, but the unused columns must be filled with `NA` or `""` values. Also, all nodes used in `f` must be part of `g`; they can be of any data type, but they are internally manipulated as characters. Columns names are irrelevant on this data frame. It is assumed that forbidden paths will at least involve three nodes. This is because paths of two nodes are simple arcs, in which case they should be directly removed from  as they are forbidden.
+
+Third, `cores` is an optional parameter that enables the use of parallel processing in these algorithms. It is recommended that for a computer with `n` cores, the maximum possible value for this parameter should be `n-1`, to allow one core to take care of the operative system’s functions. If no value is received, cores defaults to `1L`, removing the parallel abilities.
+
+The following are declarations of a graph and its set of forbidden paths. 
+
+
+```{r}
+# Create a new graph and show it.
+# Each graph can be read from different sources, but that is not the scope of R-SPPFP.
+g <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+                    to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"), 
+                    cost = c(1L, 3L, 1L, 1L, 5L, 1L, 6L, 1L, 1L, 1L, 1L, 7L, 8L)), 
+              .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+
+# Create a list of forbidden paths, for the graph g
+f <- structure(list(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u")), 
+               .Names = c("V1", "V2", "V3", "V4"), class = "data.frame", row.names = c(NA, -2L))
+```
+
+
+## Available Functions
+R-SPPFP core implements two different transformation algorithms. In both cases, the set of forbidden paths must be known beforehand. There are also additional parsin functions. Each function documentation is available in the [reference](reference/index.html).
+
+### Transformations
+The first one is Villeneuve and Desaulniers (2005) transformation. Though it supports multiple paths of different sizes, it is restricted by the fact that no `f_i ∈ F` must be, or contain, a sub-path of another `f_j ∈ F`  where `i <> j`. This is evaluated for sub-paths of at least three nodes. Using the data from above, it can be called as:
+
+```{r}
+library(rsppfp)
+modify_graph_vd(g, f)
+```
+
+The second transformation algorithm is the one developed by Hsu et al. (2009), and it is named backward construction. This algorithms also supports multiple paths of different sizes. However any forbidden path -or part of it- can be a sub-path of another forbidden path. USing the same data of the previous section, this transformation can be called as follows:
+
+
+```{r}
+library(rsppfp)
+modify_graph_hsu(g, f, cores = 1L)
+
+```
+
+
+
+### Parsings
+Using the transformations provided implies two limitations. However, **R-SPPFP** provides additional functions to overcome them. These are:
+
+  1. The algorithms are only ment to work with digraphs. i.e. graphs where each arc is directed from a specific node to another node, and can only be traveled in one particular direction. There is an additional function named [direct_graph(...)](reference/direct_graph.html) that converts an undirected graph to a digraph compatible with the transformation functions. This is done by duplicating each arc and inverting the duplicate’s origin-destination pair. This function also supports parallel processing.
+ 
+  2. Because the transformations add new nodes to the graphs, any path calculated in them with be written in terms of the transformed graph. The translation of the nodes from `gStar` back to the original graph can be done using the function [parse_vpath(...)](reference/parse_vpath.html)
+  
+
+### Outputs
+Both types of transformation functions return a graph as a data frame, in which each row represents an arc. It maintains the main columns `from` and `to` representing the arcs in terms of origin and destination nodes. Additional columns represent other  arcs’ attributes, if corresponds. However, regardless of the data type used for them in the original graph, the names of nodes of the resulting graph are always of type character. 
+
+This is because the generation of the new nodes names follows the proposal made by Villeneuve and Desaulniers’ (2005): as both algorithms loop through each node on each forbidden path, new nodes names are generated by incrementally concatenating the original names, split by pipe. For example, for a given `f_1 ∈ F = {f, c, p, t}` with the nodes named as alphabetical vowels, the new nodes are: `f|c`, `f|c|p`, `f|c|p|t`. In a second example, for `f_2 ∈ F = {1988, 1985, 1958, 1963}`, with nodes as integer values, the new nodes names will be: `1988|1985`, `1988|1985|1958` and `1988|1985|1958|1963`.
+
+As a result, any paths calculated in a transformed path will make use of the new nodes names. 

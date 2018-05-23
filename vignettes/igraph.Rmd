@@ -1,0 +1,92 @@
+---
+title: "Example: Other Packages"
+output: rmarkdown::html_vignette
+resource_files:
+  - fig2.png
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(rsppfp)
+library(igraph)
+library(foreach)
+library(doParallel)
+library(dplyr)
+library(magrittr)
+```
+
+
+This is an example to showcase how **R-SPPFP** can be used along with other existing packages. The full code is accessible from R-SPPFP’s GitHub repository in the [examples package](https://github.com/melvidoni/rsppfp/tree/master/examples). 
+
+
+## Preparing the Input
+
+The first step is to define the graph and its forbidden paths. This is done in the following snippet, with a set of forbidden paths defined as `F = {f_1, f_2, f_3, f_4}`, where `f_1 = {u, v, y, u}`, `f_2 = {w, u, y, u}`, `f_3 = {w, v, y}` and `f_4 = {x, w, v, y, t}`. Though this example is defined arbitrarily, and the input data is hard-coded, it is worth noting that the input can be obtained from different sources such as databases, spreadsheet files, and others. However, that process is outside of **R-SPPFP**’s scope. 
+
+
+```{r}
+# Load the sample graph
+graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"),
+                        to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
+                        cost = c(1L, 4L, 1L, 2L, 7L, 1L, 2L, 5L, 1L, 4L, 1L, 3L, 9L)),
+                   .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+
+# Load the forbidden paths
+fpaths <- structure(list(V1 = c("u", "u", "w", "x"), V2 = c("v", "w", "v","w"), V3 = c("y", "y", "y", "v"),
+                         V4 = c("u", "u", "", "y"), V5 = c("", "", "", "t")),
+                    .Names = c("V1", "V2", "V3", "V4", "V5"), class = "data.frame", row.names = c(NA, -4L))
+```
+
+
+After this, it is possible to use **R-SPPFP**’s functions to transform the original graph, into `G*`. In this case, some forbidden paths have sub-paths that are part of others; particular examples are `f_3` and `f_4`. As a result, the example makes use of Hsu’s backward construction function. 
+
+```{r}
+# Run the algorithm and transform the graph
+gStar <- modify_graph_hsu(graph, fpaths, 3L)
+gStar
+```
+
+
+
+## Integration with iGraph
+
+The resulting data frame  (named in the code as `gStar`) can be transformed to other data types, specific of particular libraries. For example, it is possible to use the function `graph_from_data_frame(...)` provided by iGraph (Csárdi & Nepusz, 2006), to convert `gStar` in order to use iGraph shortest-path functionalities.
+
+
+```{r}
+# Transform gStar to iGraph's data format
+gStar.igraph <- graph_from_data_frame(gStar)
+```
+
+Even more, both graphs can be plotted using `tkplot(…)` or `plot(...)` function. The following code shows an example of visualization using iGraphs functions.
+
+```{r, fig.show='hold'}
+# This can be used to plot the graph
+plot(gStar.igraph, edge.arrow.size = 0.5, vertex.size = 20, xlab = "Graph", vertex.color = "#F1F1F1", vertex.label.color = "#050505")
+```
+
+As any path calculated in `gStar` will be given in terms of its nodes, it is required to translate it back to the original graph's nodes. The  following code shows that you can use iGraph's `shortest_paths(...)` functions, and then parse the result. This also works with any other path generator function.
+
+It is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In iGraph, this is known as `vpaths` (vertexes paths).
+
+```{r}
+# Obtain a shortest path
+shortestPath <- V(gStar.igraph)$name[ shortest_paths(gStar.igraph, from = "u", to = "t", mode = "out", output = "vpath")$vpath[[1]] ]
+shortestPath
+
+# Translate the vpath
+parse_vpath(shortestPath)
+```
+
+
+
+
+
+

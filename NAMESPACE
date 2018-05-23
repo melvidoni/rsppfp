@@ -1,2 +1,3 @@
-# Package-private functions start with a dot.
 exportPattern("^[^\\.]")
+importFrom(foreach,"%dopar%")
+importFrom(magrittr,"%>%")
