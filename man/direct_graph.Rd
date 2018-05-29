@@ -40,5 +40,6 @@ digraph
 
 }
 \seealso{
-Other Parsers: \code{\link{parse_vpath}}
+Other Parsers: \code{\link{get_all_nodes}},
+  \code{\link{parse_vpath}}
 }

@@ -1,3 +1,4 @@
+#' @export
 #' @title Parser for G* nodes paths.
 #'
 #' @description Translates a sequence of nodes from a G* graph, generated with any of the available
@@ -37,6 +38,7 @@ parse_vpath <- function(vpath) {
 
 
 
+#' @export
 #' @title Undirected Graph Translator
 #'
 #' @description The SPPFP transformation functions only work with digraphs -i.e. directed graphs. Because in a digraph
@@ -55,6 +57,9 @@ parse_vpath <- function(vpath) {
 #'
 #' @return A new graph, with the same columns and data types of the original graph. This new graph is twice as
 #'    big as the original, as new arcs are added to represent that each arc can be traveled in both directions.
+#' 
+#' @importFrom foreach %dopar% 
+#' @importFrom magrittr %>%
 #' 
 #' @examples
 #' # Obtain the graph from any way
@@ -99,4 +104,50 @@ direct_graph <- function(graph, cores = 1L) {
 
   # Return the value
   rbind(graph, directedGraph)
+}
+
+
+
+
+
+
+
+#' @export
+#' @title Parser for G* nodes.
+#'
+#' @description A original node N_i can appear on a transformed G* as different nodes. This is the result of
+#'    the creation of nodes in the transformation processes. Therefore, it is possible that the original node N
+#'    does not exists on G*, or that multiple N_i* exist. Hence, as all new nodes are generated using a specific
+#'    structure for the name -compiling all previous nodes names, split by pipe-, this function allows searching
+#'    for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest paths to all of them.
+#'
+#' @family Parsers
+#'
+#' @param gStar A graph in data frame format, translated using one of the available functions.
+#' @param originalNode The name of the original node from G, that needs to be searched within G*. It is preferable
+#'    to use a character format, but this can also be of any simple type. No lists or vectors are allowed.
+#'
+#' @return A new vector of character type, whose elements are all the N_i* equivalent to the original N node. This
+#'    also includes the original node.
+#'
+#' @examples
+#' # Given a specific gStar graph:
+#' gStar <- structure(list(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x", "x", "v", 
+#'                                  "v", "y", "y", "s", "s|u", "u", "u|v"), 
+#'                         to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
+#'                                "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
+#'                    weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L)), 
+#'                    class = "data.frame", row.names = c(NA, -18L), .Names = c("from", "to", "weight"))
+#' gStar
+#' 
+#' # Obtain all the nodes equivalent to N_i = "v"
+#' get_all_nodes(gStar, "v")                                                   
+#'
+#'
+get_all_nodes <- function(gStar, originalNode) {
+  # Get the list of nodes
+  nodes <- unique(c(gStar$from, gStar$to))
+
+  # Get all the nodes that end on that original node
+  nodes[sapply(paste0("*\\s|", originalNode, "$"), function(y) grepl(y, nodes))]
 }

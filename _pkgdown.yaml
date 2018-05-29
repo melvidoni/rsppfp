@@ -7,12 +7,18 @@ reference:
     contents:
       - '`parse_vpath`'
       - '`direct_graph`'
+      - '`get_all_nodes`'
       
   - title: Digraphs Transformations
     desc: Implementations of algorithms to transform a graph and its set of forbidden paths.
     contents:
       - '`modify_graph_vd`'
       - '`modify_graph_hsu`'
+      
+  - title: Integrations
+    desc: Functions that simplify the integration with other R-Packages.
+    contents:
+      - '`get_shortest_path`'
       
       
 navbar:
