@@ -4,10 +4,10 @@
 \alias{get_all_nodes}
 \title{Parser for G* nodes.}
 \usage{
-get_all_nodes(gStar, originalNode)
+get_all_nodes(g, originalNode)
 }
 \arguments{
-\item{gStar}{A graph in data frame format, translated using one of the available functions.}
+\item{g}{A graph in data frame format, translated using one of the available functions.}
 
 \item{originalNode}{The name of the original node from G, that needs to be searched within G*. It is preferable
 to use a character format, but this can also be of any simple type. No lists or vectors are allowed.}

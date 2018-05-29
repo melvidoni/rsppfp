@@ -123,7 +123,7 @@ direct_graph <- function(graph, cores = 1L) {
 #'
 #' @family Parsers
 #'
-#' @param gStar A graph in data frame format, translated using one of the available functions.
+#' @param g A graph in data frame format, translated using one of the available functions.
 #' @param originalNode The name of the original node from G, that needs to be searched within G*. It is preferable
 #'    to use a character format, but this can also be of any simple type. No lists or vectors are allowed.
 #'
@@ -144,9 +144,9 @@ direct_graph <- function(graph, cores = 1L) {
 #' get_all_nodes(gStar, "v")                                                   
 #'
 #'
-get_all_nodes <- function(gStar, originalNode) {
+get_all_nodes <- function(g, originalNode) {
   # Get the list of nodes
-  nodes <- unique(c(gStar$from, gStar$to))
+  nodes <- unique(c(g$from, g$to))
 
   # Get all the nodes that end on that original node
   nodes[sapply(paste0("*\\s|", originalNode, "$"), function(y) grepl(y, nodes))]

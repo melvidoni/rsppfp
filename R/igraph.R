@@ -47,9 +47,19 @@ get_shortest_path <- function(g, origin, dest) {
   g.i <- graph_from_data_frame(g)
   
   # Get all the shortest paths to each node
-  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(gStar, dest), weights = E(g.i)$weight, output = "both")
+  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(g, dest), weights = E(g.i)$weight, output = "both")
   
-  # Return the shortest path
-  sp$vpath[which.min( lapply(sp$epath, function(y) 
-      ifelse(length(y) != 0, sum(E(g.i)$weight[ y[[1]] ]), 999999999)) )] [[1]]
+  # If there are no path, return NA
+  if(length(sp$vpath) == 1 & length(sp$vpath[[1]]) == 0)
+    return(NA)
+  # Otherwise...
+  else {
+    # Return the shortest path
+    sp$vpath[which.min( 
+      foreach(i = 1:length(sp$epath), .combine = c) %do% { 
+        ifelse( length(sp$epath[i]), sum(E(g.i)$weight[ sp$epath[[i]] ]), 999999999) 
+      } 
+    )]
+  }
+
 }
