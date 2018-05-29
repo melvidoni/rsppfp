@@ -1,17 +1,3 @@
----
-output: github_document
----
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
 # R-SPPFP
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsppfp)](https://cran.r-project.org/package=rsppfp)
 [![Travis-CI Build Status](https://travis-ci.org/melvidoni/rsppfp.svg?branch=master)](https://travis-ci.org/melvidoni/rsppfp)

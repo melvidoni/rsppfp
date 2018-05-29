@@ -72,17 +72,54 @@ Even more, both graphs can be plotted using `tkplot(…)` or `plot(...)` functio
 plot(gStar.igraph, edge.arrow.size = 0.5, vertex.size = 20, xlab = "Graph", vertex.color = "#F1F1F1", vertex.label.color = "#050505")
 ```
 
-As any path calculated in `gStar` will be given in terms of its nodes, it is required to translate it back to the original graph's nodes. The  following code shows that you can use iGraph's `shortest_paths(...)` functions, and then parse the result. This also works with any other path generator function.
+As any path calculated in `gStar` will be given in terms of its nodes. Hence, as a result of the transformation process, `gStar` nodes `nStar` are equivalences of the original nodes. For example, a node labeled `Argo123` in the original graph `G` can be divided into several new `nStar_i`, resulting in: `Troya789|Argo123`, `Paris456|Troya789|Argo123` and `Polux852|Argo123`, besides the original node. Therefore, when searching for a path from a node to another node `n_i`, the algorithm must consider all of the `nStar_i`.
+
+The package **R-SPPFP** provides an additional function to obtain this equivalences. A code example can be seen below:
+
+```{r}
+# This can be used to plot the graph
+get_all_nodes(gStar, "v")
+```
+
+With this, the flow to obtain a _shortest path_ with any algorithm, can be summarized as follows:
+  1. Obtain all of the target node's equivalences.
+  2. For each target node found in (1):
+    - Get the shortest path and its weight/cost from the origin node to it.
+  3. The less costly path is the solution.
+
+This algorithm has been implemented for iGraph in an example function, named [`get_shortest_path`](reference/get_shortest_path.html). However, although it can be used to simplify solving the shortest path, its aim is to provide guidance on how to impliment the previous logic.
+
+Its code is the following:
+
+```{r, eval=FALSE}
+get_shortest_path <- function(g, origin, dest) {
+  # Convert the graph
+  g.i <- graph_from_data_frame(g)
+  
+  # Get all the shortest paths to each node
+  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(gStar, dest), weights = E(g.i)$weight, output = "both")
+  
+  # Return the shortest path
+  sp$vpath[which.min( lapply(sp$epath, function(y) 
+      ifelse(length(y) != 0, sum(E(g.i)$weight[ y[[1]] ]), 999999999)) )] [[1]]
+}
+```
+
+And it can be used as in the following example:
+
+```{r, warning=FALSE}
+# Obtain the shortest path using the simplified function
+shortestPath <- get_shortest_path(gStar, "u", "w")
+shortestPath
+```
+
+Also, 
 
 It is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In iGraph, this is known as `vpaths` (vertexes paths).
 
 ```{r}
-# Obtain a shortest path
-shortestPath <- V(gStar.igraph)$name[ shortest_paths(gStar.igraph, from = "u", to = "t", mode = "out", output = "vpath")$vpath[[1]] ]
-shortestPath
-
 # Translate the vpath
-parse_vpath(shortestPath)
+parse_vpath(V(gStar.igraph)$name[ shortestPath ])
 ```
 
 

@@ -29,5 +29,6 @@ translated_vpath
 
 }
 \seealso{
-Other Parsers: \code{\link{direct_graph}}
+Other Parsers: \code{\link{direct_graph}},
+  \code{\link{get_all_nodes}}
 }
