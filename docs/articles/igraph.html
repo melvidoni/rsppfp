@@ -66,6 +66,9 @@
   <a href="../articles/references.html">References</a>
 </li>
 <li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+<li>
   <a href="https://github.com/melvidoni/rsppfp">
     <span class="fa fa-github"></span>
      
@@ -119,7 +122,7 @@ fpaths &lt;-<span class="st"> </span><span class="kw">structure</span>(<span cla
                     <span class="dt">.Names =</span> <span class="kw">c</span>(<span class="st">"V1"</span>, <span class="st">"V2"</span>, <span class="st">"V3"</span>, <span class="st">"V4"</span>, <span class="st">"V5"</span>), <span class="dt">class =</span> <span class="st">"data.frame"</span>, <span class="dt">row.names =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="op">-</span>4L))</code></pre></div>
 <p>After this, it is possible to use <strong>R-SPPFP</strong>’s functions to transform the original graph, into <code>G*</code>. In this case, some forbidden paths have sub-paths that are part of others; particular examples are <code>f_3</code> and <code>f_4</code>. As a result, the example makes use of Hsu’s backward construction function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the algorithm and transform the graph</span>
-gStar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/modify_graph_hsu.html">modify_graph_hsu</a></span>(graph, fpaths, 3L)
+gStar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/modify_graph_hsu.html">modify_graph_hsu</a></span>(graph, fpaths)
 gStar
 <span class="co">#&gt;     from    to cost</span>
 <span class="co">#&gt; 1      s     u    1</span>
@@ -140,7 +143,10 @@ gStar
 <span class="co">#&gt; 33   x|w x|w|v    1</span>
 <span class="co">#&gt; 17   w|v     t    1</span>
 <span class="co">#&gt; 24   x|w     y    2</span>
-<span class="co">#&gt; 34 x|w|v     t    1</span></code></pre></div>
+<span class="co">#&gt; 34 x|w|v     t    1</span>
+<span class="co">#&gt; 41   u|v     t    1</span>
+<span class="co">#&gt; 5  u|v|y     t    3</span>
+<span class="co">#&gt; 6    u|w   w|v    1</span></code></pre></div>
 </div>
 <div id="integration-with-igraph" class="section level2">
 <h2 class="hasAnchor">
@@ -165,23 +171,26 @@ gStar.igraph &lt;-<span class="st"> </span><span class="kw">graph_from_data_fram
   g.i &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(g)
   
   <span class="co"># Get all the shortest paths to each node</span>
-  sp &lt;-<span class="st"> </span><span class="kw">shortest_paths</span>(g.i, <span class="dt">from =</span> origin, <span class="dt">to =</span> <span class="kw"><a href="../reference/get_all_nodes.html">get_all_nodes</a></span>(gStar, dest), <span class="dt">weights =</span> <span class="kw">E</span>(g.i)<span class="op">$</span>weight, <span class="dt">output =</span> <span class="st">"both"</span>)
+  sp &lt;-<span class="st"> </span><span class="kw">shortest_paths</span>(g.i, <span class="dt">from =</span> origin, <span class="dt">to =</span> <span class="kw"><a href="../reference/get_all_nodes.html">get_all_nodes</a></span>(g, dest), <span class="dt">weights =</span> <span class="kw">E</span>(g.i)<span class="op">$</span>weight, <span class="dt">output =</span> <span class="st">"both"</span>)
   
   <span class="co"># Return the shortest path</span>
-  sp<span class="op">$</span>vpath[<span class="kw">which.min</span>( <span class="kw">lapply</span>(sp<span class="op">$</span>epath, <span class="cf">function</span>(y) 
-      <span class="kw">ifelse</span>(<span class="kw">length</span>(y) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>, <span class="kw">sum</span>(<span class="kw">E</span>(g.i)<span class="op">$</span>weight[ y[[<span class="dv">1</span>]] ]), <span class="dv">999999999</span>)) )] [[<span class="dv">1</span>]]
+  sp<span class="op">$</span>vpath[<span class="kw">which.min</span>( 
+    <span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(sp<span class="op">$</span>epath), <span class="dt">.combine =</span> c) <span class="op">%do%</span><span class="st"> </span>{ 
+      <span class="kw">ifelse</span>( <span class="kw">length</span>(sp<span class="op">$</span>epath[i]), <span class="kw">sum</span>(<span class="kw">E</span>(g.i)<span class="op">$</span>weight[ sp<span class="op">$</span>epath[[i]] ]), <span class="dv">999999999</span>) 
+    } 
+  )]
 }</code></pre></div>
 <p>And it can be used as in the following example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Obtain the shortest path using the simplified function</span>
-shortestPath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_shortest_path.html">get_shortest_path</a></span>(gStar, <span class="st">"u"</span>, <span class="st">"w"</span>)
+shortestPath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_shortest_path.html">get_shortest_path</a></span>(gStar, <span class="st">"u"</span>, <span class="st">"t"</span>)
 shortestPath
-<span class="co">#&gt; + 2/13 vertices, named, from 9e553ad:</span>
-<span class="co">#&gt; [1] u   u|w</span></code></pre></div>
-<p>Also,</p>
-<p>It is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In iGraph, this is known as <code>vpaths</code> (vertexes paths).</p>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; + 3/13 vertices, named, from ce76b60:</span>
+<span class="co">#&gt; [1] u   u|v t</span></code></pre></div>
+<p>Also, it is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In iGraph, this is known as <code>vpaths</code> (vertexes paths).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Translate the vpath</span>
-<span class="kw"><a href="../reference/parse_vpath.html">parse_vpath</a></span>(<span class="kw">V</span>(gStar.igraph)<span class="op">$</span>name[ shortestPath ])
-<span class="co">#&gt; [1] "u" "w"</span></code></pre></div>
+<span class="kw"><a href="../reference/parse_vpath.html">parse_vpath</a></span>(<span class="kw">V</span>(gStar.igraph)<span class="op">$</span>name[ <span class="kw">unlist</span>(shortestPath) ])
+<span class="co">#&gt; [1] "u" "v" "t"</span></code></pre></div>
 </div>
   </div>
 

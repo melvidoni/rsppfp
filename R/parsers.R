@@ -60,6 +60,9 @@ parse_vpath <- function(vpath) {
 #' 
 #' @importFrom foreach %dopar% 
 #' @importFrom magrittr %>%
+#' @importFrom parallel makeCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel stopCluster
 #' 
 #' @examples
 #' # Obtain the graph from any way

@@ -26,7 +26,9 @@
 #'    
 #' @importFrom igraph graph_from_data_frame
 #' @importFrom igraph shortest_paths
-#' @importFrom igraph E     
+#' @importFrom igraph E
+#' @importFrom foreach %do%
+#' @importFrom foreach foreach    
 #'
 #' @examples
 #' # Given a specific gStar graph:

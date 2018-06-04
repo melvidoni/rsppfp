@@ -49,7 +49,7 @@ After this, it is possible to use **R-SPPFP**’s functions to transform the ori
 
 ```{r}
 # Run the algorithm and transform the graph
-gStar <- modify_graph_hsu(graph, fpaths, 3L)
+gStar <- modify_graph_hsu(graph, fpaths)
 gStar
 ```
 
@@ -120,7 +120,7 @@ Also, it is worth pointing out that a path can only be translated if it is prese
 
 ```{r}
 # Translate the vpath
-parse_vpath(V(gStar.igraph)$name[ shortestPath ])
+parse_vpath(V(gStar.igraph)$name[ unlist(shortestPath) ])
 ```
 
 

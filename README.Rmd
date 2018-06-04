@@ -3,6 +3,8 @@
 [![Travis-CI Build Status](https://travis-ci.org/melvidoni/rsppfp.svg?branch=master)](https://travis-ci.org/melvidoni/rsppfp)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/melvidoni/rsppfp?branch=master&svg=true)](https://ci.appveyor.com/project/melvidoni/rsppfp)
 [![Coverage Status](https://img.shields.io/codecov/c/github/melvidoni/rsppfp/master.svg)](https://codecov.io/github/melvidoni/rsppfp?branch=master)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 
 The **R-SPPFP** package implements different algorithms for transforming graphs in the _Shortest Path Problem with Forbidden Paths_ (SPPFP). This problem is an important concept in the field of graph theories, and it is a variant of the traditional _shortest path problem_. In here, there is an additional constrait that takes the form of a finite set of forbidden paths (arc sequences of at least three nodes) that cannot be part of any solution path. 
 

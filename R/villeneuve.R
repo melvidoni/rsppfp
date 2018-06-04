@@ -31,6 +31,9 @@
 #'    
 #' @importFrom foreach %dopar% 
 #' @importFrom magrittr %>%
+#' @importFrom parallel makeCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel stopCluster
 #' 
 #' @examples
 #' # Obtain a graph and its forbidden subpaths
@@ -53,74 +56,74 @@ modify_graph_vd <- function(g, f, cores = 1L) {
   # Modify G
   g$from <- as.character(g$from)
   g$to <- as.character(g$to)
-
+  
   # Number of columns
   ncol <- ncol(g)
-
+  
   # Set up the parallel
-  cluster <- parallel::makeCluster(cores)
-  doParallel::registerDoParallel(cluster)
-
-  firstOutput <- foreach::foreach(i = 1:nrow(f), .combine = .comb, .multicombine = TRUE,
-                                  .export = ".get_arc_attributes") %dopar% {
+  cluster <- makeCluster(cores)
+  registerDoParallel(cluster)
+  
+  firstOutput <- foreach(i = 1:nrow(f), .combine = .comb, .multicombine = TRUE, .export = ".get_arc_attributes") %dopar% {
     # Create a list of nodes and the new graph
     tempNewArcs <- g[0,]
-
+    
     # Prepare a predecesor node
     preNode <- f[i,1]
-
+    
     # Create a list of banned arcs
     tempBannedArcs <- g[0,1:2]
-
+    
     # We are looping from the second to the penultimate item on the list.
     # The last node is ignored because it is only temporal,
     # So by ignoring it, we aim to reduce working time
     for(level in 2:(length(f[i,]) - 1) ) {
       # Create the new node name
       nodeName <- paste0(as.character(f[i,])[1:level], collapse = "|")
-
+      
       # Add the link to the predecesor with the attributes
       if(ncol > 2) {
-        tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName, .get_arc_attributes(g, f[i, level-1], f[i, level]))
+        tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName, 
+                                                    .get_arc_attributes(g, f[i, level-1], f[i, level]))
       }
       # Otherwise just add the values
       else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
-
+      
       # And update the predecesor
       preNode <- nodeName
     }
     # Ban the next arc
     tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, f[i, level + 1])
-
+    
     # Delete arcs
     tempDelete <- g[0,1:2]
     tempDelete[1,] <- c(f[i,1], f[i,2])
-
+    
     # Return the temporal frame to mix it with the others
     list(tempNewArcs, tempDelete, tempBannedArcs)
   }
   # Remove deleted arcs from here
   g <- g[!(g$from %in% firstOutput[[2]]$from & g$to %in% firstOutput[[2]]$to),]
-
-
+  
+  
   # Now through the new nodes
   newNodes <- firstOutput[[1]]$to
-  secondOutput <- foreach::foreach(nn = newNodes, .combine = rbind, .export = ".get_arc_attributes") %dopar% {
+  secondOutput <- foreach(nn = newNodes, .combine = rbind, .export = ".get_arc_attributes") %dopar% {
     # Split by pipe and get the last element
     nsName <- gsub(".*\\|(.*)", "\\1", nn)
-
+    
     # Get the outgoing arcs for the original node, that are not banned
-    toNodes <- dplyr::setdiff(subset(g, from == nsName)[,1:2], firstOutput[[3]])$to
-
-
+    toNodes <- setdiff(subset(g[,1:2], from == nsName)$to, 
+                       subset(firstOutput[[3]], from == nsName | from == nn)$to)
+    
     # Prepare the temporal frame
     tempNewArcs <- g[0,]
-
+    
     # For each element
     for(toNode in toNodes) {
       # Evaluate if there is a
       newTo <- newNodes[grepl(paste0(nsName, "\\|", toNode, "$"), newNodes)]
-
+      
       # If there is a value...
       if(!identical(newTo, character(0))) {
         # ...add it using the new node, if it needs attributes
@@ -134,7 +137,7 @@ modify_graph_vd <- function(g, f, cores = 1L) {
       # ...and if the value with the original node is not banned
       else if(!  any(apply(
         firstOutput[[3]], 1, function(x) paste(x, collapse="") == paste(c(nn,toNode), collapse="")) ) ) {
-
+        
         # Add the new link, but with the original node
         if(ncol > 2) {
           tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nn, toNode, .get_arc_attributes(g, nsName, toNode))
@@ -143,14 +146,14 @@ modify_graph_vd <- function(g, f, cores = 1L) {
         else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nn, toNode)
       }
     }
-
+    
     # Return the new value
     tempNewArcs
   }
-
+  
   # Stop Cluster
-  parallel::stopCluster(cluster)
-
+  stopCluster(cluster)
+  
   # Now return the
-  return( rbind(g, firstOutput[[1]]) %>% rbind(secondOutput) %>% unique())
+  return( rbind(g, firstOutput[[1]]) %>% rbind(secondOutput) )
 }

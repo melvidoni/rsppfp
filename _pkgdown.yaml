@@ -40,8 +40,11 @@ navbar:
           href: "articles/igraph.html"
           
     - text: "References"
-      href: "articles/references.html"
-          
+      href: articles/references.html
+      
+    - text: Changelog
+      href: news/index.html
+
     - icon: fa-github
       text: "GitHub"
       href: https://github.com/melvidoni/rsppfp

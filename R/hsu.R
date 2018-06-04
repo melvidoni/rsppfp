@@ -30,6 +30,9 @@
 #'    
 #' @importFrom foreach %dopar% 
 #' @importFrom magrittr %>%
+#' @importFrom parallel makeCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel stopCluster
 #'     
 #'             
 #' @examples
@@ -54,265 +57,271 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   g$from <- as.character(g$from)
   g$to <- as.character(g$to)
   f[f == ""] <- NA
-
+  
   # Get the number of columns
   ncol <- ncol(g)
-
+  
   # Set up the parallel
   cluster <- parallel::makeCluster(cores)
   doParallel::registerDoParallel(cluster)
-
+  
   # Create the first output
   firstOutput <- foreach::foreach(startNode = unique(f[,1]), .combine = .comb, .multicombine = TRUE,
-                         .export = ".get_arc_attributes") %dopar% {
-     # Create the new arcs
-     tempNewArcs <- g[0,]
-     tempDeletedArcs <- g[0,1:2]
-     tempFDelete <- f[0,]
-
-     # Create a list of banned arcs and nodes
-     tempBannedArcs <- data.frame(from = as.character(), to = as.character(), stringsAsFactors = FALSE)
-     tempBannedNodes <- data.frame(node = as.character(), stringsAsFactors = FALSE)
-
-
-     # Subset all the paths that start with that node
-     subsetSN <- subset(f, f[,1] == startNode)
-
-     # Get all the endings of paths starting with that node, transposed
-     endings <- t(sapply(
-       split(subsetSN, seq(nrow(subsetSN))), function(x) tail(x[!is.na(x)], 2) ) )
-
-     # For each ending
-     for(e in nrow(endings)) {
-       # Get all FP starting in "startNode" and ending in these pair
-       fps <- subsetSN[sapply(split(subsetSN, seq(nrow(subsetSN))),
-                              function(x) tail(x[!is.na(x)], 2) == endings[e,])[1,]
-                       ,]
-
-       # SET 1, SUBSET 1
-       # ---------------------------------------------------------------------
-       # If there are more than two paths here, it means the FPs on the subset
-       # are parte of set 1 subset 1 (same start, same end pair).
-       # Therefore, we remove it from the original list
-       if(nrow(fps) > 1) {
-         tempFDelete <- fps
-
-         # For all paths
-         for(i in 1:nrow(fps)) {
-
-           # Delete the first arc of the FP in the original graph
-           # g <- subset(g, from == fps[i,1] & to == fps[i,2])
-           tempDeletedArcs[nrow(tempDeletedArcs) + 1,] <- c(fps[i,1], fps[i,2])
-
-           # Prepare a predecesor node
-           preNode <- fps[i,1]
-
-
-           # We are looping from the second to the penultimate item on the list.
-           # The last node is ignored because it is only temporal,
-           # So by ignoring it, we aim to reduce working time
-           # Create a flag to check if we continue adding
-           continue <- TRUE
-           j <- 2
-           while(continue & j < (length(fps[i,]) - 1) ) {
-             # Create the new node name
-             nodeName <- paste0(as.character(fps[i,])[1:j], collapse = "|")
-
-             # Add the link to the predecesor, with all the attributes
-             if(ncol > 2) {
-               tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName, .get_arc_attributes(g, fps[i, j-1], fps[i, j]))
-             }
-             # Or without the attributes
-             else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
-
-
-             # Ban the next arc
-             tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, fps[i, j + 1])
-
-             # And update the predecesor
-             preNode <- nodeName
-
-             # SET 1 SUBGROUP 1
-             # ----------------
-             if(i != 1) {
-               # In this case, we also need to check if there is a node ending on the next node
-               newTo <- unique(tempNewArcs$to)[grepl(paste0("\\|", fps[i, j + 1], "$"), unique(tempNewArcs$to))]
-
-               # If there is one
-               if(!identical(newTo, character(0))) {
-                 # Write that arc as well, with its attributes
-                 if(ncol > 2) {
-                   tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nodeName, newTo,
-                                                               .get_arc_attributes(g, fps[i,j-1], fps[i,j]))
-                 }
-                 # Or without them
-                 else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nodeName, newTo)
-
-                 # And mark that we stop looping here
-                 continue <- FALSE
-               }
-             }
-
-             j <- j + 1
-           }
-           # Save the last node as banned
-           tempBannedNodes[nrow(tempBannedNodes) + 1,1] <- paste0(as.character(fps[i,][which(!is.na(fps[i,]))]),
-                                                                  collapse = "|")
-
-         } # End loop of all paths
-       } # Endif
-     }
-
-     # Return all the values
-     list(tempNewArcs, tempDeletedArcs, tempBannedArcs, tempBannedNodes, tempFDelete)
-   }
-
+                                  .export = ".get_arc_attributes") %dopar% {
+    # Create the new arcs
+    tempNewArcs <- g[0,]
+    tempDeletedArcs <- g[0,1:2]
+    tempFDelete <- f[0,]
+    
+    # Create a list of banned arcs and nodes
+    tempBannedArcs <- data.frame(from = as.character(), to = as.character(), stringsAsFactors = FALSE)
+    tempBannedNodes <- data.frame(node = as.character(), stringsAsFactors = FALSE)
+    
+    
+    # Subset all the paths that start with that node
+    subsetSN <- subset(f, f[,1] == startNode)
+    
+    # Get all the endings of paths starting with that node, transposed
+    endings <- t(sapply(
+      split(subsetSN, seq(nrow(subsetSN))), function(x) tail(x[!is.na(x)], 2) ) )
+    
+    # For each ending
+    for(e in nrow(endings)) {
+      # Get all FP starting in "startNode" and ending in these pair
+      fps <- subsetSN[sapply(split(subsetSN, seq(nrow(subsetSN))),
+                             function(x) tail(x[!is.na(x)], 2) == endings[e,])[1,]
+                      ,]
+      
+      # SET 1, SUBSET 1
+      # ---------------------------------------------------------------------
+      # If there are more than two paths here, it means the FPs on the subset
+      # are parte of set 1 subset 1 (same start, same end pair).
+      # Therefore, we remove it from the original list
+      if(nrow(fps) > 1) {
+        tempFDelete <- fps
+        
+        # For all paths
+        for(i in 1:nrow(fps)) {
+          
+          # Delete the first arc of the FP in the original graph
+          # g <- subset(g, from == fps[i,1] & to == fps[i,2])
+          tempDeletedArcs[nrow(tempDeletedArcs) + 1,] <- c(fps[i,1], fps[i,2])
+          
+          # Prepare a predecesor node
+          preNode <- fps[i,1]
+          
+          
+          # We are looping from the second to the penultimate item on the list.
+          # The last node is ignored because it is only temporal,
+          # So by ignoring it, we aim to reduce working time
+          # Create a flag to check if we continue adding
+          continue <- TRUE
+          j <- 2
+          while(continue & j < (length(fps[i,]) - 1) ) {
+            # Create the new node name
+            nodeName <- paste0(as.character(fps[i,])[1:j], collapse = "|")
+            
+            # Add the link to the predecesor, with all the attributes
+            if(ncol > 2) {
+              tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName, .get_arc_attributes(g, fps[i, j-1], fps[i, j]))
+            }
+            # Or without the attributes
+            else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
+            
+            
+            # Ban the next arc
+            tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, fps[i, j + 1])
+            
+            # And update the predecesor
+            preNode <- nodeName
+            
+            # SET 1 SUBGROUP 1
+            # ----------------
+            if(i != 1) {
+              # In this case, we also need to check if there is a node ending on the next node
+              newTo <- unique(tempNewArcs$to)[grepl(paste0("\\|", fps[i, j + 1], "$"), unique(tempNewArcs$to))]
+              
+              # If there is one
+              if(!identical(newTo, character(0))) {
+                # Write that arc as well, with its attributes
+                if(ncol > 2) {
+                  tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nodeName, newTo,
+                                                              .get_arc_attributes(g, fps[i,j-1], fps[i,j]))
+                }
+                # Or without them
+                else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nodeName, newTo)
+                
+                # And mark that we stop looping here
+                continue <- FALSE
+              }
+            }
+            
+            j <- j + 1
+          }
+          # Save the last node as banned
+          tempBannedNodes[nrow(tempBannedNodes) + 1,1] <- paste0(as.character(fps[i,][which(!is.na(fps[i,]))]),
+                                                                 collapse = "|")
+          
+        } # End loop of all paths
+      } # Endif
+    }
+    
+    # Return all the values
+    list(tempNewArcs, tempDeletedArcs, tempBannedArcs, tempBannedNodes, tempFDelete)
+  }
+  
   # Delete forbidden paths
   f <- dplyr::setdiff(f, firstOutput[[5]])
-
+  
   # Leave unique only
   firstOutput[[1]] <- dplyr::distinct(firstOutput[[1]])
   firstOutput[[2]] <- dplyr::distinct(firstOutput[[2]])
   firstOutput[[3]] <- dplyr::distinct(firstOutput[[3]])
-
-
-
+  
+  
+  
   # STEP 2: CLASSIFY SET 2, AND SET 1 SUBSET 2
   # -------------------------------------------------------------
   # The remaining forbidden paths are those belonging to this set
   secondOutput <- foreach::foreach(k = 1:nrow(f), .combine = .comb, .multicombine = TRUE,
                                    .export = ".get_arc_attributes") %dopar% {
-    # Create the new arcs
-    tempNewArcs <- g[0,]
-    tempDeletedArcs <- g[0,1:2]
-
-        # Create a list of banned arcs and nodes
-    tempBannedArcs <- data.frame(from = as.character(), to = as.character(), stringsAsFactors = FALSE)
-    tempBannedNodes <- data.frame(node = as.character(), stringsAsFactors = FALSE)
-
-
-    # Remove the first arc of the FP in the original graph
-    tempDeletedArcs[nrow(tempDeletedArcs) + 1,] <- list(f[k,1], f[k,2])
-
-    # Prepare a predecesor node
-    preNode <- f[k,1]
-
-    # Get the cleaned path without NA
-    cleanfp <- f[k,][which(!is.na(f[k,]))]
-
-    # From the second to the last one
-    # Here we need to go until the last node
-    continue <- TRUE
-    l <- 2
-    while(continue & l <= length(cleanfp)) {
-      # Create the new node name
-      nodeName <- paste0(as.character(cleanfp)[1:l], collapse = "|")
-
-      # If this is the second we use the node as-is
-      if(l == 2) {
-        # Add the link to the predecesor with its attributes
-        if(ncol > 2) {
-          tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
-                                                      .get_arc_attributes(g, f[k,l-1], f[k,l]))
-        }
-        # Or without them
-        else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
-
-        # Ban the next arc
-        tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, f[k, l + 1])
-
-        # And update the predecesor
-        preNode <- nodeName
-      }
-      else  {
-        # Node name and quality of last
-        lastNode <- l == length(cleanfp[k,])
-        lastPart <- ifelse(lastNode | l == 3, nodeName,
-                           paste0(tail(strsplit(nodeName, "\\|")[[1]], 3), collapse = "|"))
-
-        # If this is the last node, ban it
-        if(lastNode)
-          tempBannedNodes[nrow(tempBannedNodes) + 1,1] <- nodeName
-
-        # If there is a banned element
-        if(lastPart %in% tempBannedNodes | lastPart %in% firstOutput[[4]]$node) {
-          # If the node has arcs going or comming to it, delete them
-          tempNewArcs <- setdiff(tempNewArcs, subset(tempNewArcs, tempNewArcs$to == lastPart))
-          tempNewArcs <- setdiff(tempNewArcs, subset(tempNewArcs, tempNewArcs$from == lastPart))
-
-          # Do not continue
-          continue <- FALSE
-        }
-        # Otherwise, add it
-        else {
-          # Add the link to the predecesor, with its attributes
-          if(ncol > 2) {
-            tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
-                                                        .get_arc_attributes(g, f[k,l-1], f[k,l]))
-          }
-          # Or without them
-          else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
-
-
-          # Ban the next arc
-          tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, f[k, l + 1])
-
-          # And update the predecesor
-          preNode <- nodeName
-        }
-      }
-
-      # Increase the counter
-      l <- l + 1
-    }
-
-    # Return the results
-    list(tempNewArcs, tempDeletedArcs, tempBannedArcs, tempBannedNodes)
-  }
-
+     # Create the new arcs
+     tempNewArcs <- g[0,]
+     tempDeletedArcs <- g[0,1:2]
+     
+     # Create a list of banned arcs and nodes
+     tempBannedArcs <- data.frame(from = as.character(), to = as.character(), stringsAsFactors = FALSE)
+     tempBannedNodes <- data.frame(node = as.character(), stringsAsFactors = FALSE)
+     
+     
+     # Remove the first arc of the FP in the original graph
+     tempDeletedArcs[nrow(tempDeletedArcs) + 1,] <- list(f[k,1], f[k,2])
+     
+     # Prepare a predecesor node
+     preNode <- f[k,1]
+     
+     # Get the cleaned path without NA
+     cleanfp <- f[k,][which(!is.na(f[k,]))]
+     
+     # From the second to the last one
+     # Here we need to go until the last node
+     continue <- TRUE
+     l <- 2
+     while(continue & l <= length(cleanfp)) {
+       # Create the new node name
+       nodeName <- paste0(as.character(cleanfp)[1:l], collapse = "|")
+       
+       # If this is the second we use the node as-is
+       if(l == 2) {
+         # Add the link to the predecesor with its attributes
+         if(ncol > 2) {
+           tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
+                                                       .get_arc_attributes(g, f[k,l-1], f[k,l]))
+         }
+         # Or without them
+         else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
+         
+         # Ban the next arc
+         tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, f[k, l + 1])
+         
+         # And update the predecesor
+         preNode <- nodeName
+       }
+       else  {
+         # Node name and quality of last
+         lastNode <- l == length(cleanfp[k,])
+         lastPart <- ifelse(lastNode | l == 3, nodeName,
+                            paste0(tail(strsplit(nodeName, "\\|")[[1]], 3), collapse = "|"))
+         
+         # If this is the last node, ban it
+         if(lastNode)
+           tempBannedNodes[nrow(tempBannedNodes) + 1,1] <- nodeName
+         
+         # If there is a banned element
+         if(lastPart %in% tempBannedNodes | lastPart %in% firstOutput[[4]]$node) {
+           # If the node has arcs going or comming to it, delete them
+           tempNewArcs <- setdiff(tempNewArcs, subset(tempNewArcs, tempNewArcs$to == lastPart))
+           tempNewArcs <- setdiff(tempNewArcs, subset(tempNewArcs, tempNewArcs$from == lastPart))
+           
+           # Do not continue
+           continue <- FALSE
+         }
+         # Otherwise, add it
+         else {
+           # Add the link to the predecesor, with its attributes
+           if(ncol > 2) {
+             tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
+                                                         .get_arc_attributes(g, f[k,l-1], f[k,l]))
+           }
+           # Or without them
+           else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
+           
+           
+           # Ban the next arc
+           tempBannedArcs[nrow(tempBannedArcs) + 1,] <- c(nodeName, f[k, l + 1])
+           
+           # And update the predecesor
+           preNode <- nodeName
+         }
+       }
+       
+       # Increase the counter
+       l <- l + 1
+     }
+     
+     # Return the results
+     list(tempNewArcs, tempDeletedArcs, tempBannedArcs, tempBannedNodes)
+   }
+  
   # Merge banned nodes
   bannedNodes <- c(firstOutput[[4]]$node, secondOutput[[4]]$node)
   # For each of the banned nodes
   deletedBannedArcs <- foreach::foreach(bn = bannedNodes, .combine = rbind) %dopar% {
     temp <- g[0,]
-
+    
     # Get the length of the banned node
     length <- nchar(bn)
-
+    
     # Get the arcs where the from contains the banned node
     arcsEvaluation <- as.data.frame(
       apply(X = secondOutput[[1]], MARGIN = 1:2,
             FUN = function(x) substr(x, nchar(x) - length + 1, nchar(x)) == bn)
     )
-
+    
     # Now get the arcs
     subset(secondOutput[[1]], arcsEvaluation$from | arcsEvaluation$to)
   }
-
+  
   # Now remove this
   secondOutput[[1]] <- dplyr::setdiff(secondOutput[[1]], deletedBannedArcs)
   rm(deletedBannedArcs)
-
-
+  
+  # Fill the banned arcs
+  secondOutput[[3]] <- unique(rbind(secondOutput[[3]], firstOutput[[3]]))
+  
+  
   # STEP 3: LINK BACK TO THE ORIGINAL GRAPH
   # ---------------------------------------
   # Now go through the new nodes
-  newNodes <- unique(secondOutput[[1]]$to)
+  newNodes <- c(unique(secondOutput[[1]]$to), unique(firstOutput[[1]]$to))
   thirdOutput <- foreach::foreach(nn = newNodes, .combine = rbind, .export = ".get_arc_attributes") %dopar% {
     # Create the arcs
     newArcs <- g[0,]
-
+    
     # Split by pipe and get the last element
     nsName <- gsub(".*\\|(.*)", "\\1", nn)
-
+    
     # Get the outgoing arcs for the original node, that are not banned
-    toNodes <- setdiff(subset(g, from == nsName), secondOutput[[3]])$to
-
+    # toNodes <- setdiff(subset(g, from == nsName), secondOutput[[3]])$to
+    toNodes <- setdiff(subset(g[,1:2], from == nsName)$to, 
+                       subset(secondOutput[[3]], from == nn | from == nsName)$to )
+    
+    
     # For each element
     for(toNode in toNodes) {
       # Evaluate if there is a node
       newTo <- newNodes[grepl(paste0(nsName, "\\|", toNode, "$"), newNodes)]
-
+      
       # If there is a value, and the transitive is not banned
       if(!identical(newTo, character(0)) & nrow(subset(secondOutput[[3]], from == nn & to == toNode)) == 0) {
         # Add it using the new node, if the original is not deleted
@@ -328,28 +337,28 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
       # ...and if the value with the original node is not banned
       else if(! any(apply(
         secondOutput[[3]], 1, function(x) paste(x, collapse="") == paste(c(nn,toNode), collapse="")) ) ) {
-
+        
         # Add the new link, but with the original node and its attributes
         if(ncol > 2) {
           newArcs[nrow(newArcs) + 1, ] <- list(nn, toNode, .get_arc_attributes(g, nsName, toNode))                                    }
         # Or without them
         else newArcs[nrow(newArcs) + 1, ] <- list(nn, toNode)
-
+        
       }
     }
-
+    
     # Return the value
     newArcs
   }
-
+  
   # Stop Cluster
   parallel::stopCluster(cluster)
-
-
+  
+  
   # Remove deleted arcs from here
   g <- g[!(g$from %in% firstOutput[[2]]$from & g$to %in% firstOutput[[2]]$to),]
   g <- g[!(g$from %in% secondOutput[[2]]$from & g$to %in% secondOutput[[2]]$to),]
-
+  
   # Now add the new arcs and return
   return(unique(rbind(g, firstOutput[[1]]) %>% rbind(g, secondOutput[[1]]) %>% rbind(thirdOutput)))
 }
