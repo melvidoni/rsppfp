@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • R-SPPFP</title>
+<title>Additional Attributes Getter — .get_arc_attributes • R-SPPFP</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Additional Attributes Getter — .get_arc_attributes" />
+
+<meta property="og:description" content="Given a graph G, and two nodes from and to. The function searches for the arc that
+   goes in the direction &quot;from-to&quot;, and returns a list of its attributes, without the original nodes." />
 
 <meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -49,7 +52,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -126,90 +129,67 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Additional Attributes Getter</h1>
+    <small class="dont-index">Source: <a href='https://github.com/melvidoni/rsppfp/blob/master/R/privates.R'><code>R/privates.R</code></a></small>
+    <div class="hidden name"><code>dot-get_arc_attributes.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Given a graph G, and two nodes <code>from</code> and <code>to</code>. The function searches for the arc that
+   goes in the direction "from-to", and returns a list of its attributes, without the original nodes.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-parser-functions" class="hasAnchor"><a href="#section-parser-functions" class="anchor"></a>Parser Functions</h2>
-          <p class="section-desc"><p>Functions that parse inputs to be used by the main algorithms, or outputs generated from the translated graphs.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="parse_vpath.html">parse_vpath()</a></code> </p>
-        </td>
-        <td><p>Parser for G* nodes paths.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="direct_graph.html">direct_graph()</a></code> </p>
-        </td>
-        <td><p>Undirected Graph Translator</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_all_nodes.html">get_all_nodes()</a></code> </p>
-        </td>
-        <td><p>Parser for G* nodes.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-digraphs-transformations" class="hasAnchor"><a href="#section-digraphs-transformations" class="anchor"></a>Digraphs Transformations</h2>
-          <p class="section-desc"><p>Implementations of algorithms to transform a graph and its set of forbidden paths.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="modify_graph_vd.html">modify_graph_vd()</a></code> </p>
-        </td>
-        <td><p>Villeneuve and Desaulniers (2005) Algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="modify_graph_hsu.html">modify_graph_hsu()</a></code> </p>
-        </td>
-        <td><p>Hsu et al. (2009) Algorithm</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-integrations" class="hasAnchor"><a href="#section-integrations" class="anchor"></a>Integrations</h2>
-          <p class="section-desc"><p>Functions that simplify the integration with other R-Packages.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="get_shortest_path.html">get_shortest_path()</a></code> </p>
-        </td>
-        <td><p>iGraph Shortest Path</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>.get_arc_attributes</span>(<span class='no'>g</span>, <span class='no'>f</span>, <span class='no'>t</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>g</th>
+      <td><p>The original graph from which the attributes need to be extracted. This cannot be a G*, and it must
+have at least one attribute, besides the <code>from</code> and <code>to</code> columns.</p></td>
+    </tr>
+    <tr>
+      <th>from</th>
+      <td><p>The name of the node that needs to be the origin of the arc that will be searched for.</p></td>
+    </tr>
+    <tr>
+      <th>to</th>
+      <td><p>The name of the node that needs to be de destination of the arc that will be searched for.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A list of the attributes for the corresponding arc. Since this function is called from a controlled
+   space, it assumes that the arc always exists.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Private function that cannot be used by the package's end-users.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Private Functions: <code><a href='dot-comb.html'>.comb</a></code></p></div>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-parser-functions">Parser Functions</a></li>
-      <li><a href="#section-digraphs-transformations">Digraphs Transformations</a></li>
-      <li><a href="#section-integrations">Integrations</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
+
   </div>
 </div>
 

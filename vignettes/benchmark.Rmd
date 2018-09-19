@@ -157,7 +157,7 @@ get_random_graphs <- function(seed, directory) {
 Figure 1 shows the results for digraphs of 90% density. This was executed on a computer with an Intel I7-4790 CPU at 3.6Ghz, with 4GB of RAM, using Linux Ubuntu 16.04 as the operating system. Three cores out of four were used in all of the transformations.  
 
 
-```{r, fig.show='hold'}
+```{r, fig.show='hold', fig.align='center'}
 data <- readRDS(file = "execTime.rds")
 
 ggplot(data = data, aes(x = nodes, y = d90, group = interaction(fpaths, algorithm))) + 
@@ -166,7 +166,8 @@ ggplot(data = data, aes(x = nodes, y = d90, group = interaction(fpaths, algorith
     scale_y_continuous(name = "Execution Time (seconds)", breaks = seq(from = 0, to = 1500, by = 200)) +
     scale_x_continuous(name = "Nodes Number", breaks = unique(data$nodes)) + 
     labs(linetype = "Algorithm", color = "F. Paths", title = "Algorithms Execution Time", 
-         subtitle = "Variable forbidden paths of up to 6 nodes, with 90% density")
+         subtitle = "Variable forbidden paths of up to 6 nodes, with 90% density") +
+  theme_classic()
 ```
 
 

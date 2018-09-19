@@ -42,3 +42,4 @@ get_all_nodes(gStar, "v")
 Other Parsers: \code{\link{direct_graph}},
   \code{\link{parse_vpath}}
 }
+\concept{Parsers}

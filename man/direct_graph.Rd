@@ -43,3 +43,4 @@ digraph
 Other Parsers: \code{\link{get_all_nodes}},
   \code{\link{parse_vpath}}
 }
+\concept{Parsers}

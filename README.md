@@ -1,4 +1,4 @@
-# R-SPPFP
+# R-SPPFP <img src="man/figs/logo.png" align="right" alt="" />
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsppfp)](https://cran.r-project.org/package=rsppfp)
 [![Travis-CI Build Status](https://travis-ci.org/melvidoni/rsppfp.svg?branch=master)](https://travis-ci.org/melvidoni/rsppfp)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/melvidoni/rsppfp?branch=master&svg=true)](https://ci.appveyor.com/project/melvidoni/rsppfp)
@@ -15,6 +15,9 @@ This problem is solved by transforming the original graph `G` and its set of for
 - In many cases -i.e. logistics- `G` and `F` remain unchanged for long periods of time. Thus, the transformation is completed only once, and `G*` can be stored along with the original graph. A new conversion is required only on the rare cases where the graph, or its forbidden paths, are modified.
 - The input data is provided as common data frames, increasing the versatility of this package.
 
+This solving process is illustrated in Figure 1, using a paper notation to indicate input and output data. Even more, R-SPPFP scope and key functionalities are also highlighted.
+
+![]("man/figures/fig1.png")
 
 
 ## Algorithms

@@ -58,3 +58,4 @@ gStar
 
 Other Graph Transformation: \code{\link{modify_graph_vd}}
 }
+\concept{Graph Transformation}

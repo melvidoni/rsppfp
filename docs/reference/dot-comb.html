@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Alias function for foreach's dopar — %dopar% • rsppfp</title>
+<title>Villeneuve's Combination Function — .comb • R-SPPFP</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,23 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Alias function for foreach's dopar — %dopar%" />
+<meta property="og:title" content="Villeneuve's Combination Function — .comb" />
 
-<meta property="og:description" content="Provides an alias for dopar, so it can be used inside this package." />
+<meta property="og:description" content="This function combines the outputs produced on the parallel loop of the Villeneuve and
+   Desaulnier's algorithm implementations. It cannot be used for other purposes." />
+
+<meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -48,7 +54,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -57,8 +63,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">rsppfp</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.0.0.0</span>
+        <a class="navbar-link" href="../index.html">R-SPPFP</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0.0</span>
       </span>
     </div>
 
@@ -66,23 +72,53 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
 <li>
-  <a href="../articles/rsppfp.html">Get started</a>
+  <a href="../reference/index.html">Documentation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/rsppfp.html">R-SPPFP Details</a>
+    </li>
+    <li>
+      <a href="../articles/benchmark.html">Transformations Benchmark</a>
+    </li>
+    <li>
+      <a href="../articles/igraph.html">Example: iGraph Integration</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/references.html">References</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li>
+  <a href="https://github.com/melvidoni/rsppfp">
+    <span class="fa fa-github"></span>
+     
+    GitHub
+  </a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/melvidoni/rsppfp">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -95,25 +131,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Alias function for foreach's dopar</h1>
-    
-    <div class="hidden name"><code>grapes-dopar-grapes.Rd</code></div>
+    <h1>Villeneuve's Combination Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/melvidoni/rsppfp/blob/master/R/privates.R'><code>R/privates.R</code></a></small>
+    <div class="hidden name"><code>dot-comb.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Provides an alias for dopar, so it can be used inside this package.</p>
+    <p>This function combines the outputs produced on the parallel loop of the Villeneuve and
+   Desaulnier's algorithm implementations. It cannot be used for other purposes.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>obj</span> <span class='kw'>%dopar%</span> <span class='no'>ex</span></pre>
+    <pre class="usage"><span class='fu'>.comb</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
         
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Private function that cannot be used by the package's end-users.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Private Functions: <code><a href='dot-get_arc_attributes.html'>.get_arc_attributes</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

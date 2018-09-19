@@ -58,3 +58,4 @@ modify_graph_vd(graph, fpaths)
 
 Other Graph Transformation: \code{\link{modify_graph_hsu}}
 }
+\concept{Graph Transformation}

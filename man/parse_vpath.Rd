@@ -32,3 +32,4 @@ translated_vpath
 Other Parsers: \code{\link{direct_graph}},
   \code{\link{get_all_nodes}}
 }
+\concept{Parsers}

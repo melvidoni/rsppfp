@@ -47,3 +47,4 @@ get_shortest_path(gStar, "s", "v")
 
 
 }
+\concept{iGraph Integration}
