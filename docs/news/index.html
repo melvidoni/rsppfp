@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">R-SPPFP</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
 
@@ -132,9 +132,22 @@
       <small>Source: <a href='https://github.com/melvidoni/rsppfp/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="rsppfp-1-0-0-0" class="section level2">
+    <div id="rsppfp-1-0-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rsppfp-1-0-0-0" class="anchor"></a>RSPPFP 1.0.0.0</h2>
+<a href="#rsppfp-1-0-2" class="anchor"></a>RSPPFP 1.0.2</h2>
+<p>Stable release of advanced implementation of R-SPPFP, with minor bug fixes. Released October 2018.</p>
+<div id="minor-bug-fixes-and-improvements" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minor-bug-fixes-and-improvements" class="anchor"></a>Minor Bug Fixes and Improvements</h3>
+<ul>
+<li>Fixed Hsu’s transformation: when having more than three columns (<code>from</code> and <code>to</code>, and an undefined number of attributes) the resulting <code>gStar</code> has the attributes in the correct order.</li>
+<li>Improved Hsu’s transformation: previous to working, it deletes empty rows from the set of forbidden paths. Empty rows are those in which all of the cells contain either only blank spaces or <code>NA</code> values.</li>
+</ul>
+</div>
+</div>
+    <div id="rsppfp-1-0-0" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rsppfp-1-0-0" class="anchor"></a>RSPPFP 1.0.0</h2>
 <p>First stable release of advanced implementation of R-SPPFP, released on June 2018.</p>
 <div id="major-changes" class="section level3">
 <h3 class="hasAnchor">
@@ -153,7 +166,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#rsppfp-1-0-0-0">1.0.0.0</a></li>
+        <li><a href="#rsppfp-1-0-2">1.0.2</a></li>
+        <li><a href="#rsppfp-1-0-0">1.0.0</a></li>
       </ul>
     </div>
   </div>

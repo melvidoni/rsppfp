@@ -56,7 +56,10 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   # Transform the graph
   g$from <- as.character(g$from)
   g$to <- as.character(g$to)
-  f[f == ""] <- NA
+  
+  # Clean the forbidden paths
+  f <- as.data.frame( apply(f, 2, function(x) gsub("^$|^ $", NA, x)) )
+  f <- f[apply(f,1,function(x)any(!is.na(x))),]
   
   # Get the number of columns
   ncol <- ncol(g)
@@ -123,7 +126,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
             
             # Add the link to the predecesor, with all the attributes
             if(ncol > 2) {
-              tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName, .get_arc_attributes(g, fps[i, j-1], fps[i, j]))
+              tempNewArcs[nrow(tempNewArcs) + 1,] <- c(preNode, nodeName, .get_arc_attributes(g, fps[i, j-1], fps[i, j]))
             }
             # Or without the attributes
             else tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName)
@@ -145,7 +148,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
               if(!identical(newTo, character(0))) {
                 # Write that arc as well, with its attributes
                 if(ncol > 2) {
-                  tempNewArcs[nrow(tempNewArcs) + 1,] <- list(nodeName, newTo,
+                  tempNewArcs[nrow(tempNewArcs) + 1,] <- c(nodeName, newTo,
                                                               .get_arc_attributes(g, fps[i,j-1], fps[i,j]))
                 }
                 # Or without them
@@ -215,7 +218,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
        if(l == 2) {
          # Add the link to the predecesor with its attributes
          if(ncol > 2) {
-           tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
+           tempNewArcs[nrow(tempNewArcs) + 1,] <- c(preNode, nodeName,
                                                        .get_arc_attributes(g, f[k,l-1], f[k,l]))
          }
          # Or without them
@@ -250,7 +253,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
          else {
            # Add the link to the predecesor, with its attributes
            if(ncol > 2) {
-             tempNewArcs[nrow(tempNewArcs) + 1,] <- list(preNode, nodeName,
+             tempNewArcs[nrow(tempNewArcs) + 1,] <- c(preNode, nodeName,
                                                          .get_arc_attributes(g, f[k,l-1], f[k,l]))
            }
            # Or without them
@@ -328,7 +331,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
         if( !any(c(nsName, toNode) %in% secondOutput[[2]]) )
           # Add it with its attributes
           if(ncol > 2) {
-            newArcs[nrow(newArcs) + 1, ] <- list(nn, newTo, .get_arc_attributes(g, nsName, toNode))
+            newArcs[nrow(newArcs) + 1, ] <- c(nn, newTo, .get_arc_attributes(g, nsName, toNode))
           }
         # Or without them
         else newArcs[nrow(newArcs) + 1, ] <- list(nn, newTo)
@@ -340,7 +343,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
         
         # Add the new link, but with the original node and its attributes
         if(ncol > 2) {
-          newArcs[nrow(newArcs) + 1, ] <- list(nn, toNode, .get_arc_attributes(g, nsName, toNode))                                    }
+          newArcs[nrow(newArcs) + 1, ] <- c(nn, toNode, .get_arc_attributes(g, nsName, toNode))                                    }
         # Or without them
         else newArcs[nrow(newArcs) + 1, ] <- list(nn, toNode)
         
