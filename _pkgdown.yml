@@ -1,5 +1,5 @@
-title: R-SPPFP
-url: http://melvidoni.github.io/RSPPFP
+title: rsppfp
+url: http://melvidoni.github.io/rsppfp
 
 reference:
   - title: Parser Functions
@@ -32,11 +32,11 @@ navbar:
       
     - text: "Articles"
       menu:
-        - text: "R-SPPFP Details"
+        - text: "rsppfp Details"
           href: "articles/rsppfp.html"
         - text: "Transformations Benchmark"
           href: "articles/benchmark.html"
-        - text: "Example: iGraph Integration"
+        - text: "Example: igraph Integration"
           href: "articles/igraph.html"
           
     - text: "References"

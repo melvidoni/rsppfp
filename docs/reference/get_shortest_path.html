@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>iGraph Shortest Path — get_shortest_path • R-SPPFP</title>
+<title>igraph Shortest Path — get_shortest_path • rsppfp</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,19 +30,19 @@
 
 
 
-<meta property="og:title" content="iGraph Shortest Path — get_shortest_path" />
+<meta property="og:title" content="igraph Shortest Path — get_shortest_path" />
 
 <meta property="og:description" content="A original node N_i can appear on a transformed gStar as different N_i* equivalent nodes. Therefore, 
    this becomes a limitation when searching for a shortest path inside gStar. As a result: all N_i* need to be
    considered as possible destination nodes when looking for the shortest path. This function is a wrapper for this
-   behavior, providing a straightforward implementation using iGraph capabilities. However, it aims to provide
+   behavior, providing a straightforward implementation using igraph capabilities. However, it aims to provide
    guidance on how to build a similar algorithm for different path-finding algorithms.   
 It is important to mention that new nodes are only considered as destination nodes, and they are not search
    for origin nodes. This is because N* nodes can only be reached after traveling through gStar nodes. For example,
    a node &quot;f|e|r&quot; is actually indicating that &quot;r&quot; has been reached after traveling through the nodes 
    &quot;f&quot; and &quot;e&quot;." />
 
-<meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png" />
+<meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +70,7 @@ It is important to mention that new nodes are only considered as destination nod
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">R-SPPFP</a>
+        <a class="navbar-link" href="../index.html">rsppfp</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
@@ -94,13 +94,13 @@ It is important to mention that new nodes are only considered as destination nod
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/rsppfp.html">R-SPPFP Details</a>
+      <a href="../articles/rsppfp.html">rsppfp Details</a>
     </li>
     <li>
       <a href="../articles/benchmark.html">Transformations Benchmark</a>
     </li>
     <li>
-      <a href="../articles/igraph.html">Example: iGraph Integration</a>
+      <a href="../articles/igraph.html">Example: igraph Integration</a>
     </li>
   </ul>
 </li>
@@ -138,7 +138,7 @@ It is important to mention that new nodes are only considered as destination nod
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>iGraph Shortest Path</h1>
+    <h1>igraph Shortest Path</h1>
     <small class="dont-index">Source: <a href='https://github.com/melvidoni/rsppfp/blob/master/R/igraph.R'><code>R/igraph.R</code></a></small>
     <div class="hidden name"><code>get_shortest_path.Rd</code></div>
     </div>
@@ -148,7 +148,7 @@ It is important to mention that new nodes are only considered as destination nod
     <p>A original node N_i can appear on a transformed gStar as different N_i* equivalent nodes. Therefore, 
    this becomes a limitation when searching for a shortest path inside gStar. As a result: all N_i* need to be
    considered as possible destination nodes when looking for the shortest path. This function is a wrapper for this
-   behavior, providing a straightforward implementation using iGraph capabilities. However, it aims to provide
+   behavior, providing a straightforward implementation using igraph capabilities. However, it aims to provide
    guidance on how to build a similar algorithm for different path-finding algorithms.</p>   
 <p>It is important to mention that new nodes are only considered as destination nodes, and they are not search
    for origin nodes. This is because N* nodes can only be reached after traveling through gStar nodes. For example,
@@ -182,17 +182,17 @@ preferable to use a character format, but this can also be of any simple type. N
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The shortest path from <code>origin</code> node to <code>dest</code> node, calculated in G*, to include the forbidden paths.
-   It uses iGraph's functionalities.</p>
+   It uses igraph's functionalities.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Given a specific gStar graph:</span>
-<span class='no'>gStar</span> <span class='kw'>&lt;-</span> <span class='fu'>structure</span>(<span class='fu'>list</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"u|v"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"x"</span>,
-                                 <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"s"</span>, <span class='st'>"s|u"</span>, <span class='st'>"u"</span>, <span class='st'>"u|v"</span>),
-                        <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"t"</span>, <span class='st'>"u|v|y"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>,
-                               <span class='st'>"t"</span>, <span class='st'>"u"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"u|v"</span>, <span class='st'>"u|v|y"</span>),
-                   <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>, <span class='fl'>0L</span>, <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>)),
-                   <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA</span>, -<span class='fl'>18L</span>), <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"from"</span>, <span class='st'>"to"</span>, <span class='st'>"weight"</span>))
+<span class='no'>gStar</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"u|v"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"x"</span>,
+                             <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"s"</span>, <span class='st'>"s|u"</span>, <span class='st'>"u"</span>, <span class='st'>"u|v"</span>),
+                    <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"t"</span>, <span class='st'>"u|v|y"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>,
+                            <span class='st'>"t"</span>, <span class='st'>"u"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"u|v"</span>, <span class='st'>"u|v|y"</span>),
+                   <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>, <span class='fl'>0L</span>, <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>),
+                   <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>gStar</span></div><div class='output co'>#&gt;     from    to weight
 #&gt; 1    u|v     t     12
 #&gt; 2  s|u|v u|v|y      3
@@ -214,7 +214,7 @@ preferable to use a character format, but this can also be of any simple type. N
 #&gt; 18   u|v u|v|y      3</div><div class='input'>
 <span class='co'># Obtain the shortest path</span>
 <span class='fu'>get_shortest_path</span>(<span class='no'>gStar</span>, <span class='st'>"s"</span>, <span class='st'>"v"</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; + 3/11 vertices, named, from cebc163:
+#&gt; + 3/11 vertices, named, from 0d865f4:
 #&gt; [1] s     s|u   s|u|v
 #&gt; </div><div class='input'>
 

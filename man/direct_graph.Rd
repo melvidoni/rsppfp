@@ -27,10 +27,10 @@ The SPPFP transformation functions only work with digraphs -i.e. directed graphs
 }
 \examples{
 # Obtain the graph from any way
-graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
-                       to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
-                       cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L)),
-                   .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+graph <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+                    to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
+                    cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
+                    stringsAsFactors = FALSE)
 graph                    
 
 # Translate it

@@ -37,12 +37,11 @@ This version of the algorithm produce smaller graphs, with less new nodes and ar
 }
 \examples{
 # Obtain a graph and its forbidden subpaths
-graph <- structure(list(from = c("c", "c", "u", "u", "t", "a", "a", "r", "e", "e", "e", "p", "i", "i", "n", "o"),
-                        to = c("u", "p", "e", "t", "a", "r", "i", "u", "r", "i", "p", "n", "n", "o", "o", "m")),
-                   .Names = c("from", "to"), row.names = c(NA, -16L), class = "data.frame")
-fpaths <- structure(list(u = c("u", "p", "a"), e = c("t", "n", "i"), r = c("a", "o", "n"), 
-                         u_1 = c("r", "m", "o"), X5 = c("u", NA, NA)),
-                    .Names = c("u", "e", "r", "u_1", "X5"), row.names = c(NA, -3L), class = "data.frame")
+graph <- data.frame(from = c("c", "c", "u", "u", "t", "a", "a", "r", "e", "e", "e", "p", "i", "i", "n", "o"),
+                    to = c("u", "p", "e", "t", "a", "r", "i", "u", "r", "i", "p", "n", "n", "o", "o", "m"),
+                    stringsAsFactors = FALSE)
+fpaths <- data.frame(X1 = c("u", "p", "a", "a"), X2 = c("t", "n", "i", "r"), X3 = c("a", "o", "n", "u"), 
+                     X4 = c("r", "m", "o", NA),  X5 = c("u", NA, NA, NA), stringsAsFactors = FALSE)
 
 # Show the input
 graph

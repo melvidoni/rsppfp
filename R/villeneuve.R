@@ -37,13 +37,13 @@
 #' 
 #' @examples
 #' # Obtain a graph and its forbidden subpaths
-#'   graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"),
-#'                           to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
-#'                           cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L)),
-#'                      .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+#' graph <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+#'                     to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"), 
+#'                     cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), 
+#'                     stringsAsFactors = FALSE)
 #'                      
-#'   fpaths <- structure(list(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u")),
-#'                       .Names = c("V1", "V2", "V3", "V4"), class = "data.frame", row.names = c(NA, -2L))
+#' fpaths <- data.frame(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u"), 
+#'                      stringsAsFactors = FALSE)
 #'                       
 #' # Show the values
 #' graph
@@ -63,6 +63,9 @@ modify_graph_vd <- function(g, f, cores = 1L) {
   # Set up the parallel
   cluster <- makeCluster(cores)
   registerDoParallel(cluster)
+  
+  # Stop Cluster
+  on.exit(parallel::stopCluster(cluster))
   
   firstOutput <- foreach(i = 1:nrow(f), .combine = .comb, .multicombine = TRUE, .export = ".get_arc_attributes") %dopar% {
     # Create a list of nodes and the new graph
@@ -150,9 +153,7 @@ modify_graph_vd <- function(g, f, cores = 1L) {
     # Return the new value
     tempNewArcs
   }
-  
-  # Stop Cluster
-  stopCluster(cluster)
+
   
   # Now return the
   return( rbind(g, firstOutput[[1]]) %>% rbind(secondOutput) )

@@ -66,10 +66,10 @@ parse_vpath <- function(vpath) {
 #' 
 #' @examples
 #' # Obtain the graph from any way
-#' graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
-#'                        to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
-#'                        cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L)),
-#'                    .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+#' graph <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+#'                     to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
+#'                     cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
+#'                     stringsAsFactors = FALSE)
 #' graph                    
 #'
 #' # Translate it
@@ -84,6 +84,9 @@ direct_graph <- function(graph, cores = 1L) {
   # Set up the parallel
   cluster <- parallel::makeCluster(cores)
   doParallel::registerDoParallel(cluster)
+  
+  # Stop Cluster
+  on.exit(parallel::stopCluster(cluster))
 
   # Loop through the original graph
   directedGraph <- foreach::foreach(row = 1:nrow(graph), .combine = rbind) %dopar% {
@@ -101,9 +104,6 @@ direct_graph <- function(graph, cores = 1L) {
     # Return the value
     tempDG
   }
-
-  # Stop Cluster
-  parallel::stopCluster(cluster)
 
   # Return the value
   rbind(graph, directedGraph)
@@ -135,12 +135,12 @@ direct_graph <- function(graph, cores = 1L) {
 #'
 #' @examples
 #' # Given a specific gStar graph:
-#' gStar <- structure(list(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x", "x", "v", 
-#'                                  "v", "y", "y", "s", "s|u", "u", "u|v"), 
-#'                         to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
-#'                                "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
-#'                    weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L)), 
-#'                    class = "data.frame", row.names = c(NA, -18L), .Names = c("from", "to", "weight"))
+#' gStar <- data.frame(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x", "x", "v", 
+#'                              "v", "y", "y", "s", "s|u", "u", "u|v"), 
+#'                     to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
+#'                            "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
+#'                     weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L), 
+#'                     stringsAsFactors = FALSE)
 #' gStar
 #' 
 #' # Obtain all the nodes equivalent to N_i = "v"

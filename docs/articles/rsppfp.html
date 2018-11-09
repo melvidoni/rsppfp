@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R-SPPFP Description • R-SPPFP</title>
+<title>rsppfp Description • rsppfp</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="R-SPPFP Description">
+<script src="../pkgdown.js"></script><meta property="og:title" content="rsppfp Description">
 <meta property="og:description" content="">
-<meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png">
+<meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">R-SPPFP</a>
+        <a class="navbar-link" href="../index.html">rsppfp</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
@@ -53,13 +53,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/rsppfp.html">R-SPPFP Details</a>
+      <a href="../articles/rsppfp.html">rsppfp Details</a>
     </li>
     <li>
       <a href="../articles/benchmark.html">Transformations Benchmark</a>
     </li>
     <li>
-      <a href="../articles/igraph.html">Example: iGraph Integration</a>
+      <a href="../articles/igraph.html">Example: igraph Integration</a>
     </li>
   </ul>
 </li>
@@ -96,7 +96,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>R-SPPFP Description</h1>
+      <h1>rsppfp Description</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/melvidoni/rsppfp/blob/master/vignettes/rsppfp.Rmd"><code>vignettes/rsppfp.Rmd</code></a></small>
@@ -106,30 +106,30 @@
 
     
     
-<p><strong>R-SPPFP</strong> is a package that enables the transformation of graphs, and their sets of forbidden paths, to use them later with other tools. As it is part of an undergoing project, new functionalities could be added in the future.</p>
+<p><strong>rsppfp</strong> is a package that enables the transformation of graphs, and their sets of forbidden paths, to use them later with other tools. As it is part of an undergoing project, new functionalities could be added in the future.</p>
 <div id="input-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#input-data" class="anchor"></a>Input Data</h2>
-<p><strong>R-SPPFP</strong> manipulates input and output in standard R data frame formats, maximizing its compatibility with other packages, and allowing its results to blend in with other networking tools. In the transformation functions, the primary input data consists of two different data frames and an additional parameter for parallel processing.</p>
+<p><strong>rsppfp</strong> manipulates input and output in standard R data frame formats, maximizing its compatibility with other packages, and allowing its results to blend in with other networking tools. In the transformation functions, the primary input data consists of two different data frames and an additional parameter for parallel processing.</p>
 <p>First, <code>g</code> represents the original graph as a data frame of arcs. Arcs are mainly represented as origin-destination pairs, with the column names <code>from</code> and <code>to</code>, respectively. These two columns need to be in positions <code>1:2</code> of the data frame. Each arc may or not may have additional attributes, and this is handled internally. The nodes names may be of any simple type, such as character, integer, double, and others; <em>however, the returned graph will have nodes of character type</em>.</p>
 <p>Second, <code>f</code> represents the data frame of forbidden paths, where each row of the data frame is a path. The paths may be of different lengths, but the unused columns must be filled with <code>NA</code> or <code>""</code> values. Also, all nodes used in <code>f</code> must be part of <code>g</code>; they can be of any data type, but they are internally manipulated as characters. Columns names are irrelevant on this data frame. It is assumed that forbidden paths will at least involve three nodes. This is because paths of two nodes are simple arcs, in which case they should be directly removed from as they are forbidden.</p>
 <p>Third, <code>cores</code> is an optional parameter that enables the use of parallel processing in these algorithms. It is recommended that for a computer with <code>n</code> cores, the maximum possible value for this parameter should be <code>n-1</code>, to allow one core to take care of the operative system’s functions. If no value is received, cores defaults to <code>1L</code>, removing the parallel abilities.</p>
 <p>The following are declarations of a graph and its set of forbidden paths.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a new graph and show it.</span>
-<span class="co"># Each graph can be read from different sources, but that is not the scope of R-SPPFP.</span>
-g &lt;-<span class="st"> </span><span class="kw">structure</span>(<span class="kw">list</span>(<span class="dt">from =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>), 
-                    <span class="dt">to =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"w"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"t"</span>, <span class="st">"t"</span>, <span class="st">"u"</span>), 
-                    <span class="dt">cost =</span> <span class="kw">c</span>(1L, 3L, 1L, 1L, 5L, 1L, 6L, 1L, 1L, 1L, 1L, 7L, 8L)), 
-              <span class="dt">.Names =</span> <span class="kw">c</span>(<span class="st">"from"</span>, <span class="st">"to"</span>, <span class="st">"cost"</span>), <span class="dt">class =</span> <span class="st">"data.frame"</span>, <span class="dt">row.names =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="op">-</span>13L))
+<span class="co"># Each graph can be read from different sources, but that is not the scope of rsppfp.</span>
+g &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">from =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>), 
+                <span class="dt">to =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"w"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"t"</span>, <span class="st">"t"</span>, <span class="st">"u"</span>), 
+                <span class="dt">cost =</span> <span class="kw">c</span>(1L, 3L, 1L, 1L, 5L, 1L, 6L, 1L, 1L, 1L, 1L, 7L, 8L), 
+                <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Create a list of forbidden paths, for the graph g</span>
-f &lt;-<span class="st"> </span><span class="kw">structure</span>(<span class="kw">list</span>(<span class="dt">V1 =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"u"</span>), <span class="dt">V2 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"v"</span>), <span class="dt">V3 =</span> <span class="kw">c</span>(<span class="st">"v"</span>, <span class="st">"y"</span>), <span class="dt">V4 =</span> <span class="kw">c</span>(<span class="st">"t"</span>, <span class="st">"u"</span>)), 
-               <span class="dt">.Names =</span> <span class="kw">c</span>(<span class="st">"V1"</span>, <span class="st">"V2"</span>, <span class="st">"V3"</span>, <span class="st">"V4"</span>), <span class="dt">class =</span> <span class="st">"data.frame"</span>, <span class="dt">row.names =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="op">-</span>2L))</code></pre></div>
+f &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">V1 =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"u"</span>), <span class="dt">V2 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"v"</span>), <span class="dt">V3 =</span> <span class="kw">c</span>(<span class="st">"v"</span>, <span class="st">"y"</span>), <span class="dt">V4 =</span> <span class="kw">c</span>(<span class="st">"t"</span>, <span class="st">"u"</span>), 
+                <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 <div id="available-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#available-functions" class="anchor"></a>Available Functions</h2>
-<p>R-SPPFP core implements two different transformation algorithms. In both cases, the set of forbidden paths must be known beforehand. There are also additional parsin functions. Each function documentation is available in the <a href="reference/index.html">reference</a>.</p>
+<p><strong>rsppfp</strong> core implements two different transformation algorithms. In both cases, the set of forbidden paths must be known beforehand. There are also additional parsin functions. Each function documentation is available in the <a href="reference/index.html">reference</a>.</p>
 <div id="transformations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#transformations" class="anchor"></a>Transformations</h3>
@@ -184,7 +184,7 @@ f &lt;-<span class="st"> </span><span class="kw">structure</span>(<span class="k
 <div id="parsings" class="section level3">
 <h3 class="hasAnchor">
 <a href="#parsings" class="anchor"></a>Parsings</h3>
-<p>Using the transformations provided implies two limitations. However, <strong>R-SPPFP</strong> provides additional functions to overcome them. These are:</p>
+<p>Using the transformations provided implies two limitations. However, <strong>rsppfp</strong> provides additional functions to overcome them. These are:</p>
 <ol style="list-style-type: decimal">
 <li><p>The algorithms are only ment to work with digraphs. i.e. graphs where each arc is directed from a specific node to another node, and can only be traveled in one particular direction. There is an additional function named <a href="reference/direct_graph.html">direct_graph(…)</a> that converts an undirected graph to a digraph compatible with the transformation functions. This is done by duplicating each arc and inverting the duplicate’s origin-destination pair. This function also supports parallel processing.</p></li>
 <li><p>Because the transformations add new nodes to the graphs, any path calculated in them with be written in terms of the transformed graph. The translation of the nodes from <code>gStar</code> back to the original graph can be done using the function <a href="reference/parse_vpath.html">parse_vpath(…)</a></p></li>

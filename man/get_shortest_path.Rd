@@ -2,7 +2,7 @@
 % Please edit documentation in R/igraph.R
 \name{get_shortest_path}
 \alias{get_shortest_path}
-\title{iGraph Shortest Path}
+\title{igraph Shortest Path}
 \usage{
 get_shortest_path(g, origin, dest)
 }
@@ -18,13 +18,13 @@ preferable to use a character format, but this can also be of any simple type. N
 }
 \value{
 The shortest path from \code{origin} node to \code{dest} node, calculated in G*, to include the forbidden paths.
-   It uses iGraph's functionalities.
+   It uses igraph's functionalities.
 }
 \description{
 A original node N_i can appear on a transformed gStar as different N_i* equivalent nodes. Therefore, 
    this becomes a limitation when searching for a shortest path inside gStar. As a result: all N_i* need to be
    considered as possible destination nodes when looking for the shortest path. This function is a wrapper for this
-   behavior, providing a straightforward implementation using iGraph capabilities. However, it aims to provide
+   behavior, providing a straightforward implementation using igraph capabilities. However, it aims to provide
    guidance on how to build a similar algorithm for different path-finding algorithms.
    
    It is important to mention that new nodes are only considered as destination nodes, and they are not search
@@ -34,12 +34,12 @@ A original node N_i can appear on a transformed gStar as different N_i* equivale
 }
 \examples{
 # Given a specific gStar graph:
-gStar <- structure(list(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x", "x", 
-                                 "v", "v", "y", "y", "s", "s|u", "u", "u|v"), 
-                        to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
-                               "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
-                   weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L)), 
-                   class = "data.frame", row.names = c(NA, -18L), .Names = c("from", "to", "weight"))
+gStar <- data.frame(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x", "x", 
+                             "v", "v", "y", "y", "s", "s|u", "u", "u|v"),
+                    to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
+                            "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
+                   weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L), 
+                   stringsAsFactors = FALSE)
 gStar
 
 # Obtain the shortest path
@@ -47,4 +47,4 @@ get_shortest_path(gStar, "s", "v")
 
 
 }
-\concept{iGraph Integration}
+\concept{igraph Integration}

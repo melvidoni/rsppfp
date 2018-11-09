@@ -4,7 +4,7 @@
 \name{rsppfp}
 \alias{rsppfp}
 \alias{rsppfp-package}
-\title{Package: R-SPPFP}
+\title{Package: rsppfp}
 \description{
 Transformation algorithms to translate the SPPFP (Shortest Path Problem with Forbidden Paths) to a
    traditional shortest-path problem that includes the forbidden paths.

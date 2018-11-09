@@ -1,5 +1,5 @@
 ---
-title: "R-SPPFP Description"
+title: "rsppfp Description"
 output: rmarkdown::html_vignette
 import: rsppfp
 vignette: >
@@ -20,11 +20,11 @@ library(magrittr)
 library(dplyr)
 ```
 
-**R-SPPFP** is a package that enables the transformation of graphs, and their sets of forbidden paths, to use them later with other tools. As it is part of an undergoing project, new functionalities could be added in the future.
+**rsppfp** is a package that enables the transformation of graphs, and their sets of forbidden paths, to use them later with other tools. As it is part of an undergoing project, new functionalities could be added in the future.
 
 
 ## Input Data
-**R-SPPFP** manipulates input and output in standard R data frame formats, maximizing its compatibility with other packages, and allowing its results to blend in with other networking tools. In the transformation functions, the primary input data consists of two different data frames and an additional parameter for parallel processing. 
+**rsppfp** manipulates input and output in standard R data frame formats, maximizing its compatibility with other packages, and allowing its results to blend in with other networking tools. In the transformation functions, the primary input data consists of two different data frames and an additional parameter for parallel processing. 
 
 First, `g`  represents the original graph as a data frame of arcs. Arcs are mainly represented as origin-destination pairs, with the column names `from` and `to`, respectively. These two columns need to be in positions `1:2` of the data frame. Each arc may or not may have additional attributes, and this is handled internally. The nodes names may be of any simple type, such as character, integer, double, and others; _however, the returned graph will have nodes of character type_.
 
@@ -37,20 +37,20 @@ The following are declarations of a graph and its set of forbidden paths.
 
 ```{r}
 # Create a new graph and show it.
-# Each graph can be read from different sources, but that is not the scope of R-SPPFP.
-g <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
-                    to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"), 
-                    cost = c(1L, 3L, 1L, 1L, 5L, 1L, 6L, 1L, 1L, 1L, 1L, 7L, 8L)), 
-              .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+# Each graph can be read from different sources, but that is not the scope of rsppfp.
+g <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+                to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"), 
+                cost = c(1L, 3L, 1L, 1L, 5L, 1L, 6L, 1L, 1L, 1L, 1L, 7L, 8L), 
+                stringsAsFactors = FALSE)
 
 # Create a list of forbidden paths, for the graph g
-f <- structure(list(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u")), 
-               .Names = c("V1", "V2", "V3", "V4"), class = "data.frame", row.names = c(NA, -2L))
+f <- data.frame(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u"), 
+                stringsAsFactors = FALSE)
 ```
 
 
 ## Available Functions
-R-SPPFP core implements two different transformation algorithms. In both cases, the set of forbidden paths must be known beforehand. There are also additional parsin functions. Each function documentation is available in the [reference](reference/index.html).
+**rsppfp** core implements two different transformation algorithms. In both cases, the set of forbidden paths must be known beforehand. There are also additional parsin functions. Each function documentation is available in the [reference](reference/index.html).
 
 ### Transformations
 The first one is Villeneuve and Desaulniers (2005) transformation. Though it supports multiple paths of different sizes, it is restricted by the fact that no `f_i ∈ F` must be, or contain, a sub-path of another `f_j ∈ F`  where `i <> j`. This is evaluated for sub-paths of at least three nodes. Using the data from above, it can be called as:
@@ -72,7 +72,7 @@ modify_graph_hsu(g, f, cores = 1L)
 
 
 ### Parsings
-Using the transformations provided implies two limitations. However, **R-SPPFP** provides additional functions to overcome them. These are:
+Using the transformations provided implies two limitations. However, **rsppfp** provides additional functions to overcome them. These are:
 
   1. The algorithms are only ment to work with digraphs. i.e. graphs where each arc is directed from a specific node to another node, and can only be traveled in one particular direction. There is an additional function named [direct_graph(...)](reference/direct_graph.html) that converts an undirected graph to a digraph compatible with the transformation functions. This is done by duplicating each arc and inverting the duplicate’s origin-destination pair. This function also supports parallel processing.
  

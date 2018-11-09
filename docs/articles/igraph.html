@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Example: Other Packages • R-SPPFP</title>
+<title>Example: Other Packages • rsppfp</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Example: Other Packages">
 <meta property="og:description" content="">
-<meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png">
+<meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">R-SPPFP</a>
+        <a class="navbar-link" href="../index.html">rsppfp</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
@@ -53,13 +53,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/rsppfp.html">R-SPPFP Details</a>
+      <a href="../articles/rsppfp.html">rsppfp Details</a>
     </li>
     <li>
       <a href="../articles/benchmark.html">Transformations Benchmark</a>
     </li>
     <li>
-      <a href="../articles/igraph.html">Example: iGraph Integration</a>
+      <a href="../articles/igraph.html">Example: igraph Integration</a>
     </li>
   </ul>
 </li>
@@ -106,66 +106,66 @@
 
     
     
-<p>This is an example to showcase how <strong>R-SPPFP</strong> can be used along with other existing packages. The full code is accessible from R-SPPFP’s GitHub repository in the <a href="https://github.com/melvidoni/rsppfp/tree/master/examples">examples package</a>.</p>
+<p>This is an example to showcase how <strong>rsppfp</strong> can be used along with other existing packages. The full code is accessible from R-SPPFP’s GitHub repository in the <a href="https://github.com/melvidoni/rsppfp/tree/master/examples">examples package</a>.</p>
 <div id="preparing-the-input" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preparing-the-input" class="anchor"></a>Preparing the Input</h2>
-<p>The first step is to define the graph and its forbidden paths. This is done in the following snippet, with a set of forbidden paths defined as <code>F = {f_1, f_2, f_3, f_4}</code>, where <code>f_1 = {u, v, y, u}</code>, <code>f_2 = {w, u, y, u}</code>, <code>f_3 = {w, v, y}</code> and <code>f_4 = {x, w, v, y, t}</code>. Though this example is defined arbitrarily, and the input data is hard-coded, it is worth noting that the input can be obtained from different sources such as databases, spreadsheet files, and others. However, that process is outside of <strong>R-SPPFP</strong>’s scope.</p>
+<p>The first step is to define the graph and its forbidden paths. This is done in the following snippet, with a set of forbidden paths defined as <code>F = {f_1, f_2, f_3, f_4}</code>, where <code>f_1 = {u, v, y, u}</code>, <code>f_2 = {w, u, y, u}</code>, <code>f_3 = {w, v, y}</code> and <code>f_4 = {x, w, v, y, t}</code>. Though this example is defined arbitrarily, and the input data is hard-coded, it is worth noting that the input can be obtained from different sources such as databases, spreadsheet files, and others. However, that process is outside of <strong>rsppfp</strong>’s scope.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the sample graph</span>
-graph &lt;-<span class="st"> </span><span class="kw">structure</span>(<span class="kw">list</span>(<span class="dt">from =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>),
-                        <span class="dt">to =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"w"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"t"</span>, <span class="st">"t"</span>, <span class="st">"u"</span>),
-                        <span class="dt">cost =</span> <span class="kw">c</span>(1L, 4L, 1L, 2L, 7L, 1L, 2L, 5L, 1L, 4L, 1L, 3L, 9L)),
-                   <span class="dt">.Names =</span> <span class="kw">c</span>(<span class="st">"from"</span>, <span class="st">"to"</span>, <span class="st">"cost"</span>), <span class="dt">class =</span> <span class="st">"data.frame"</span>, <span class="dt">row.names =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="op">-</span>13L))
+graph &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">from =</span> <span class="kw">c</span>(<span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"s"</span>, <span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>),
+                    <span class="dt">to =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"y"</span>, <span class="st">"w"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"t"</span>, <span class="st">"t"</span>, <span class="st">"u"</span>),
+                    <span class="dt">cost =</span> <span class="kw">c</span>(1L, 4L, 1L, 2L, 7L, 1L, 2L, 5L, 1L, 4L, 1L, 3L, 9L),
+                    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Load the forbidden paths</span>
-fpaths &lt;-<span class="st"> </span><span class="kw">structure</span>(<span class="kw">list</span>(<span class="dt">V1 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>), <span class="dt">V2 =</span> <span class="kw">c</span>(<span class="st">"v"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>,<span class="st">"w"</span>), <span class="dt">V3 =</span> <span class="kw">c</span>(<span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"v"</span>),
-                         <span class="dt">V4 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">""</span>, <span class="st">"y"</span>), <span class="dt">V5 =</span> <span class="kw">c</span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"t"</span>)),
-                    <span class="dt">.Names =</span> <span class="kw">c</span>(<span class="st">"V1"</span>, <span class="st">"V2"</span>, <span class="st">"V3"</span>, <span class="st">"V4"</span>, <span class="st">"V5"</span>), <span class="dt">class =</span> <span class="st">"data.frame"</span>, <span class="dt">row.names =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="op">-</span>4L))</code></pre></div>
-<p>After this, it is possible to use <strong>R-SPPFP</strong>’s functions to transform the original graph, into <code>G*</code>. In this case, some forbidden paths have sub-paths that are part of others; particular examples are <code>f_3</code> and <code>f_4</code>. As a result, the example makes use of Hsu’s backward construction function.</p>
+fpaths &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">V1 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">"w"</span>, <span class="st">"x"</span>), <span class="dt">V2 =</span> <span class="kw">c</span>(<span class="st">"v"</span>, <span class="st">"w"</span>, <span class="st">"v"</span>,<span class="st">"w"</span>), <span class="dt">V3 =</span> <span class="kw">c</span>(<span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"v"</span>),
+                     <span class="dt">V4 =</span> <span class="kw">c</span>(<span class="st">"u"</span>, <span class="st">"u"</span>, <span class="st">""</span>, <span class="st">"y"</span>), <span class="dt">V5 =</span> <span class="kw">c</span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"t"</span>), <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>After this, it is possible to use <strong>rsppfp</strong>’s functions to transform the original graph, into <code>G*</code>. In this case, some forbidden paths have sub-paths that are part of others; particular examples are <code>f_3</code> and <code>f_4</code>. As a result, the example makes use of Hsu’s backward construction function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the algorithm and transform the graph</span>
 gStar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/modify_graph_hsu.html">modify_graph_hsu</a></span>(graph, fpaths)
 gStar
-<span class="co">#&gt;     from    to cost</span>
-<span class="co">#&gt; 1      s     u    1</span>
-<span class="co">#&gt; 2      s     w    4</span>
-<span class="co">#&gt; 3      s     x    1</span>
-<span class="co">#&gt; 7      w     y    2</span>
-<span class="co">#&gt; 9      x     y    1</span>
-<span class="co">#&gt; 10     v     y    4</span>
-<span class="co">#&gt; 11     v     t    1</span>
-<span class="co">#&gt; 12     y     t    3</span>
-<span class="co">#&gt; 13     y     u    9</span>
-<span class="co">#&gt; 14     u   u|v    7</span>
-<span class="co">#&gt; 21   u|v u|v|y    4</span>
-<span class="co">#&gt; 31     u   u|w    2</span>
-<span class="co">#&gt; 4    u|w u|v|y    2</span>
-<span class="co">#&gt; 16     w   w|v    1</span>
-<span class="co">#&gt; 23     x   x|w    5</span>
-<span class="co">#&gt; 33   x|w x|w|v    1</span>
-<span class="co">#&gt; 17   w|v     t    1</span>
-<span class="co">#&gt; 24   x|w     y    2</span>
-<span class="co">#&gt; 34 x|w|v     t    1</span>
-<span class="co">#&gt; 41   u|v     t    1</span>
-<span class="co">#&gt; 5  u|v|y     t    3</span>
-<span class="co">#&gt; 6    u|w   w|v    1</span></code></pre></div>
+<span class="co">#&gt;     from    to  cost</span>
+<span class="co">#&gt; 1      s     u     1</span>
+<span class="co">#&gt; 2      s     w     4</span>
+<span class="co">#&gt; 3      s     x     1</span>
+<span class="co">#&gt; 7      w     y     2</span>
+<span class="co">#&gt; 9      x     y     1</span>
+<span class="co">#&gt; 10     v     y     4</span>
+<span class="co">#&gt; 11     v     t     1</span>
+<span class="co">#&gt; 12     y     t     3</span>
+<span class="co">#&gt; 13     y     u     9</span>
+<span class="co">#&gt; 14     u   u|v     7</span>
+<span class="co">#&gt; 21   u|v u|v|y     4</span>
+<span class="co">#&gt; 31     u   u|w     2</span>
+<span class="co">#&gt; 4    u|w u|v|y     2</span>
+<span class="co">#&gt; 16     w   w|v     1</span>
+<span class="co">#&gt; 23     x   x|w     5</span>
+<span class="co">#&gt; 33   x|w x|w|v     1</span>
+<span class="co">#&gt; 17   w|v     t     1</span>
+<span class="co">#&gt; 24   x|w     y     2</span>
+<span class="co">#&gt; 34 x|w|v     t     1</span>
+<span class="co">#&gt; 41   u|v     t     1</span>
+<span class="co">#&gt; 5  u|v|y     t     3</span>
+<span class="co">#&gt; 6    u|w   w|v x|w|v</span></code></pre></div>
 </div>
 <div id="integration-with-igraph" class="section level2">
 <h2 class="hasAnchor">
-<a href="#integration-with-igraph" class="anchor"></a>Integration with iGraph</h2>
-<p>The resulting data frame (named in the code as <code>gStar</code>) can be transformed to other data types, specific of particular libraries. For example, it is possible to use the function <code>graph_from_data_frame(...)</code> provided by iGraph (Csárdi &amp; Nepusz, 2006), to convert <code>gStar</code> in order to use iGraph shortest-path functionalities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Transform gStar to iGraph's data format</span>
+<a href="#integration-with-igraph" class="anchor"></a>Integration with igraph</h2>
+<p>The resulting data frame (named in the code as <code>gStar</code>) can be transformed to other data types, specific of particular libraries. For example, it is possible to use the function <code>graph_from_data_frame(...)</code> provided by igraph (Csárdi &amp; Nepusz, 2006), to convert <code>gStar</code> in order to use iGraph shortest-path functionalities.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Transform gStar to igraph's data format</span>
 gStar.igraph &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(gStar)</code></pre></div>
-<p>Even more, both graphs can be plotted using <code>tkplot(…)</code> or <code>plot(...)</code> function. The following code shows an example of visualization using iGraphs functions.</p>
+<p>Even more, both graphs can be plotted using <code>tkplot(…)</code> or <code>plot(...)</code> function. The following code shows an example of visualization using igraphs functions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This can be used to plot the graph</span>
-<span class="kw">plot</span>(gStar.igraph, <span class="dt">edge.arrow.size =</span> <span class="fl">0.5</span>, <span class="dt">vertex.size =</span> <span class="dv">20</span>, <span class="dt">xlab =</span> <span class="st">"Graph"</span>, <span class="dt">vertex.color =</span> <span class="st">"#F1F1F1"</span>, <span class="dt">vertex.label.color =</span> <span class="st">"#050505"</span>)</code></pre></div>
+<span class="kw">plot</span>(gStar.igraph, <span class="dt">edge.arrow.size =</span> <span class="fl">0.5</span>, <span class="dt">vertex.size =</span> <span class="dv">20</span>, <span class="dt">xlab =</span> <span class="st">"Graph"</span>, 
+     <span class="dt">vertex.color =</span> <span class="st">"#F1F1F1"</span>, <span class="dt">vertex.label.color =</span> <span class="st">"#050505"</span>)</code></pre></div>
 <p><img src="igraph_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>As any path calculated in <code>gStar</code> will be given in terms of its nodes. Hence, as a result of the transformation process, <code>gStar</code> nodes <code>nStar</code> are equivalences of the original nodes. For example, a node labeled <code>Argo123</code> in the original graph <code>G</code> can be divided into several new <code>nStar_i</code>, resulting in: <code>Troya789|Argo123</code>, <code>Paris456|Troya789|Argo123</code> and <code>Polux852|Argo123</code>, besides the original node. Therefore, when searching for a path from a node to another node <code>n_i</code>, the algorithm must consider all of the <code>nStar_i</code>.</p>
-<p>The package <strong>R-SPPFP</strong> provides an additional function to obtain this equivalences. A code example can be seen below:</p>
+<p>The package <strong>rsppfp</strong> provides an additional function to obtain this equivalences. A code example can be seen below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This can be used to plot the graph</span>
 <span class="kw"><a href="../reference/get_all_nodes.html">get_all_nodes</a></span>(gStar, <span class="st">"v"</span>)
 <span class="co">#&gt; [1] "v"     "u|v"   "w|v"   "x|w|v"</span></code></pre></div>
 <p>With this, the flow to obtain a <em>shortest path</em> with any algorithm, can be summarized as follows: 1. Obtain all of the target node’s equivalences. 2. For each target node found in (1): - Get the shortest path and its weight/cost from the origin node to it. 3. The less costly path is the solution.</p>
-<p>This algorithm has been implemented for iGraph in an example function, named <a href="reference/get_shortest_path.html"><code>get_shortest_path</code></a>. However, although it can be used to simplify solving the shortest path, its aim is to provide guidance on how to impliment the previous logic.</p>
+<p>This algorithm has been implemented for igraph in an example function, named <a href="reference/get_shortest_path.html"><code>get_shortest_path</code></a>. However, although it can be used to simplify solving the shortest path, its aim is to provide guidance on how to impliment the previous logic.</p>
 <p>Its code is the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_shortest_path &lt;-<span class="st"> </span><span class="cf">function</span>(g, origin, dest) {
   <span class="co"># Convert the graph</span>
@@ -186,9 +186,9 @@ gStar.igraph &lt;-<span class="st"> </span><span class="kw">graph_from_data_fram
 shortestPath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_shortest_path.html">get_shortest_path</a></span>(gStar, <span class="st">"u"</span>, <span class="st">"t"</span>)
 shortestPath
 <span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; + 3/13 vertices, named, from 8f08b90:</span>
+<span class="co">#&gt; + 3/13 vertices, named, from 4c9b0a1:</span>
 <span class="co">#&gt; [1] u   u|v t</span></code></pre></div>
-<p>Also, it is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In iGraph, this is known as <code>vpaths</code> (vertexes paths).</p>
+<p>Also, it is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In igraph, this is known as <code>vpaths</code> (vertexes paths).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Translate the vpath</span>
 <span class="kw"><a href="../reference/parse_vpath.html">parse_vpath</a></span>(<span class="kw">V</span>(gStar.igraph)<span class="op">$</span>name[ <span class="kw">unlist</span>(shortestPath) ])
 <span class="co">#&gt; [1] "u" "v" "t"</span></code></pre></div>
@@ -201,7 +201,7 @@ shortestPath
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#preparing-the-input">Preparing the Input</a></li>
-      <li><a href="#integration-with-igraph">Integration with iGraph</a></li>
+      <li><a href="#integration-with-igraph">Integration with igraph</a></li>
       </ul>
 </div>
       </div>

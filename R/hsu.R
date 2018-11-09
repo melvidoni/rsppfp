@@ -37,12 +37,11 @@
 #'             
 #' @examples
 #' # Obtain a graph and its forbidden subpaths
-#' graph <- structure(list(from = c("c", "c", "u", "u", "t", "a", "a", "r", "e", "e", "e", "p", "i", "i", "n", "o"),
-#'                         to = c("u", "p", "e", "t", "a", "r", "i", "u", "r", "i", "p", "n", "n", "o", "o", "m")),
-#'                    .Names = c("from", "to"), row.names = c(NA, -16L), class = "data.frame")
-#' fpaths <- structure(list(u = c("u", "p", "a"), e = c("t", "n", "i"), r = c("a", "o", "n"), 
-#'                          u_1 = c("r", "m", "o"), X5 = c("u", NA, NA)),
-#'                     .Names = c("u", "e", "r", "u_1", "X5"), row.names = c(NA, -3L), class = "data.frame")
+#' graph <- data.frame(from = c("c", "c", "u", "u", "t", "a", "a", "r", "e", "e", "e", "p", "i", "i", "n", "o"),
+#'                     to = c("u", "p", "e", "t", "a", "r", "i", "u", "r", "i", "p", "n", "n", "o", "o", "m"),
+#'                     stringsAsFactors = FALSE)
+#' fpaths <- data.frame(X1 = c("u", "p", "a", "a"), X2 = c("t", "n", "i", "r"), X3 = c("a", "o", "n", "u"), 
+#'                      X4 = c("r", "m", "o", NA),  X5 = c("u", NA, NA, NA), stringsAsFactors = FALSE)
 #'
 #' # Show the input
 #' graph
@@ -58,7 +57,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   g$to <- as.character(g$to)
   
   # Clean the forbidden paths
-  f <- as.data.frame( apply(f, 2, function(x) gsub("^$|^ $", NA, x)) )
+  f <- as.data.frame( apply(f, 2, function(x) gsub("^$|^ $", NA, x)),  stringsAsFactors = FALSE)
   f <- f[apply(f,1,function(x)any(!is.na(x))),]
   
   # Get the number of columns
@@ -67,6 +66,9 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   # Set up the parallel
   cluster <- parallel::makeCluster(cores)
   doParallel::registerDoParallel(cluster)
+  
+  # Stop Cluster
+  on.exit(parallel::stopCluster(cluster))
   
   # Create the first output
   firstOutput <- foreach::foreach(startNode = unique(f[,1]), .combine = .comb, .multicombine = TRUE,
@@ -353,10 +355,6 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
     # Return the value
     newArcs
   }
-  
-  # Stop Cluster
-  parallel::stopCluster(cluster)
-  
   
   # Remove deleted arcs from here
   g <- g[!(g$from %in% firstOutput[[2]]$from & g$to %in% firstOutput[[2]]$to),]

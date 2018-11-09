@@ -17,17 +17,19 @@ knitr::opts_chunk$set(
 library(rsppfp)
 library(igraph)
 library(ggplot2)
+library(tidyr)
+library(dplyr)
 ```
 
 
 ## Random Graphs Generation
-To evaluate **R-SPPFP package**, several examples were benchmarked. This is run using 27 randomly generated graphs, which result from the combination of the following values:
+To evaluate **rsppfp package**, several examples were benchmarked. This is run using 27 randomly generated graphs, which result from the combination of the following values:
 
 - A set of nodes of sizes: `size(N) = {100, 300, 500}`
 - The number of forbidden paths varying according to `size(F) = {50, 250, 500}`
 - A varying densite of `size(d) = {0.1, 0.5, 0.9}`
 
-A total of 27 graphs were generated using iGraph’s `erdos.renyi.game(...)`, and the forbidden paths were constructed with their `random_walk(…)` function; results were limited to prevent walks of less than three nodes.
+A total of 27 graphs were generated using igraph’s `erdos.renyi.game(...)`, and the forbidden paths were constructed with their `random_walk(…)` function; results were limited to prevent walks of less than three nodes.
 
 
 
@@ -154,25 +156,36 @@ get_random_graphs <- function(seed, directory) {
 
 ## Benchmark Results
 
-Figure 1 shows the results for digraphs of 90% density. This was executed on a computer with an Intel I7-4790 CPU at 3.6Ghz, with 4GB of RAM, using Linux Ubuntu 16.04 as the operating system. Three cores out of four were used in all of the transformations.  
+Figure 1 shows the results for digraphs of each density. This was executed on a computer with an Intel I7-4790 CPU at 3.6Ghz, with 4GB of RAM, using Linux Ubuntu 16.04 as the operating system. Three cores out of four were used in all of the transformations.  
 
-
-```{r, fig.show='hold', fig.align='center'}
+```{r include=FALSE}
+# Read the data
 data <- readRDS(file = "execTime.rds")
 
-ggplot(data = data, aes(x = nodes, y = d90, group = interaction(fpaths, algorithm))) + 
+# Convert from wide to long
+data$id <- rownames(data)
+data <- data %>% gather("density", "value", c("d10", "d50", "d90")) %>% dplyr::arrange(id)
+
+# Rename the levels
+data$density <- as.factor(data$density)
+levels(data$density) <- c("10% Density", "50% Density", "90% Density")
+```
+
+
+```{r echo=FALSE, fig.align='center', fig.show='hold', out.width='100%'}
+ggplot(data = data, aes(x = nodes, y = value, group = interaction(fpaths, algorithm))) + 
     geom_line(aes(linetype = algorithm, color = as.factor(fpaths))) + 
-    scale_color_manual(values=c("#0066FF","#009900", "#CC3333")) + 
+    scale_color_manual(values=c("#ffc857", "#db3a34", "#177e89")) + 
     scale_y_continuous(name = "Execution Time (seconds)", breaks = seq(from = 0, to = 1500, by = 200)) +
     scale_x_continuous(name = "Nodes Number", breaks = unique(data$nodes)) + 
     labs(linetype = "Algorithm", color = "F. Paths", title = "Algorithms Execution Time", 
-         subtitle = "Variable forbidden paths of up to 6 nodes, with 90% density") +
+         subtitle = "Variable forbidden paths of up to 6 nodes") +
+  facet_wrap(data$density %>% as.factor(), ncol = 3) +
   theme_classic()
 ```
 
 
-
-As can be seen, the implemented transformations are suited for different situations, but in both cases, the execution time depends exclusively on the size and number of forbidden paths. It is worth mentioning that this is expected behavior, as their logic iterates on  –each path needs to be individually evaluated to add new nodes and arcs to the graph. As result, Hsu’s backward construction always produces a smaller  that has less nodes and arcs, while Villeneuve’s algorithm is slightly faster, this difference is only notorious when increasing the number of forbidden paths to evaluate.
+As can be seen, in all situations the more general algorithm (Hsu's) takes longer to complete, though this difference increases with the number of forbidden paths and arcs. It is worth mentioning that this is expected behavior, as the transformation logic iterates on the forbidden paths `F` –each one needs to be individually evaluated to add new nodes and arcs to the graph. Because of its logic, Hsu’s backward construction always produces a smaller `gStar` with less nodes and arcs, while Villeneuve’s algorithm is slightly faster; this difference is noticeable for larger values of `F`.
 
 
 

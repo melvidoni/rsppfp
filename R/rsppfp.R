@@ -1,4 +1,4 @@
-#' Package: R-SPPFP
+#' Package: rsppfp
 #'
 #' Transformation algorithms to translate the SPPFP (Shortest Path Problem with Forbidden Paths) to a
 #'    traditional shortest-path problem that includes the forbidden paths.

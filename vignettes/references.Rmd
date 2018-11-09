@@ -7,4 +7,4 @@ title: "References"
 - Chiun-Chieh Hsu, Da-Ren Chen, Hua-Yuan Ding. 2009. "An Efficient Algorithm for the Shortest Path Problem with Forbidden Paths". _International Conference on Algorithms and Architectures for Parallel Processing (ICA3PP)_, LNCS 5574, pp.638-650. ISBN:
 978-3-642-03095-6. Springer-Verlag Berlin Heidelberg. [https://doi.org/10.1007/978-3-642-03095-6_60](https://doi.org/10.1007/978-3-642-03095-6_60)
 
-- Gabor Csárdi, Tamas Nepusz. 2006. "The iGraph Software Package for Complex Network Research," _InterJournal Complex Systems_, pp. 1-9. ISSN: 1081-0625 [http://www.interjournal.org/manuscript_abstract.php?361100992](http://www.interjournal.org/manuscript_abstract.php?361100992)
+- Gabor Csárdi, Tamas Nepusz. 2006. "The igraph Software Package for Complex Network Research," _InterJournal Complex Systems_, pp. 1-9. ISSN: 1081-0625 [http://www.interjournal.org/manuscript_abstract.php?361100992](http://www.interjournal.org/manuscript_abstract.php?361100992)

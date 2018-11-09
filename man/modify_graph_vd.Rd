@@ -37,13 +37,13 @@ It is an implementation of Villeneuve and Desaulniers' algorithm to transform a 
 }
 \examples{
 # Obtain a graph and its forbidden subpaths
-  graph <- structure(list(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"),
-                          to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"),
-                          cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L)),
-                     .Names = c("from", "to", "cost"), class = "data.frame", row.names = c(NA, -13L))
+graph <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "v", "y", "y"), 
+                    to = c("u", "w", "x", "w", "v", "v", "y", "w", "y", "y", "t", "t", "u"), 
+                    cost = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), 
+                    stringsAsFactors = FALSE)
                      
-  fpaths <- structure(list(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u")),
-                      .Names = c("V1", "V2", "V3", "V4"), class = "data.frame", row.names = c(NA, -2L))
+fpaths <- data.frame(V1 = c("s", "u"), V2 = c("u", "v"), V3 = c("v", "y"), V4 = c("t", "u"), 
+                     stringsAsFactors = FALSE)
                       
 # Show the values
 graph

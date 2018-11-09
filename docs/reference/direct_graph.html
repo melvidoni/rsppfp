@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Undirected Graph Translator — direct_graph • R-SPPFP</title>
+<title>Undirected Graph Translator — direct_graph • rsppfp</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
    used as-is, the resultng G* will not be accurate. Therefore, this functions translates an undirected graph to a
    digraph by duplicating each arc and swapping the duplicate's from and to nodes." />
 
-<meta property="og:image" content="http://melvidoni.github.io/RSPPFP/logo.png" />
+<meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +65,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">R-SPPFP</a>
+        <a class="navbar-link" href="../index.html">rsppfp</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
@@ -89,13 +89,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/rsppfp.html">R-SPPFP Details</a>
+      <a href="../articles/rsppfp.html">rsppfp Details</a>
     </li>
     <li>
       <a href="../articles/benchmark.html">Transformations Benchmark</a>
     </li>
     <li>
-      <a href="../articles/igraph.html">Example: iGraph Integration</a>
+      <a href="../articles/igraph.html">Example: igraph Integration</a>
     </li>
   </ul>
 </li>
@@ -179,10 +179,10 @@ core. It is suggested to not assign all of your available cores to the function.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Obtain the graph from any way</span>
-<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>structure</span>(<span class='fu'>list</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"u"</span>, <span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"x"</span>, <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>),
-                       <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>, <span class='st'>"t"</span>, <span class='st'>"u"</span>),
-                       <span class='kw'>cost</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>)),
-                   <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"from"</span>, <span class='st'>"to"</span>, <span class='st'>"cost"</span>), <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA</span>, -<span class='fl'>13L</span>))
+<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"s"</span>, <span class='st'>"u"</span>, <span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"x"</span>, <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>),
+                    <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"u"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>, <span class='st'>"t"</span>, <span class='st'>"u"</span>),
+                    <span class='kw'>cost</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>, <span class='fl'>1L</span>),
+                    <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>graph</span></div><div class='output co'>#&gt;    from to cost
 #&gt; 1     s  u    1
 #&gt; 2     s  w    1
