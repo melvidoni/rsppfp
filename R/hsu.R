@@ -56,6 +56,16 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   g$from <- as.character(g$from)
   g$to <- as.character(g$to)
   
+  
+  # CHECKS
+  # Check that all nodes that are used in f appear in g, otherwise halt it
+  if(!.nodesExists(g, f)) {
+    stop("All nodes used in f must exists in g.")
+  }
+  
+  
+  
+  
   # Clean the forbidden paths
   f <- as.data.frame( apply(f, 2, function(x) gsub("^$|^ $", NA, x)),  stringsAsFactors = FALSE)
   f <- f[apply(f,1,function(x)any(!is.na(x))),]

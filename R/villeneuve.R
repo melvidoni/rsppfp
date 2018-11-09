@@ -57,6 +57,15 @@ modify_graph_vd <- function(g, f, cores = 1L) {
   g$from <- as.character(g$from)
   g$to <- as.character(g$to)
   
+  
+  # CHECKS
+  # Check that all nodes that are used in f appear in g, otherwise halt it
+  if(!.nodesExists(g, f)) {
+    stop("All nodes used in f must exists in g.")
+  }
+  
+  
+  
   # Number of columns
   ncol <- ncol(g)
   
