@@ -231,9 +231,9 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
      
      # From the second to the last one
      # Here we need to go until the last node
-     continue <- TRUE
+     continue2 <- TRUE
      l <- 2
-     while(continue & l <= length(cleanfp)) {
+     while(continue2 & l <= length(cleanfp)) {
        # Create the new node name
        nodeName <- paste0(as.character(cleanfp)[1:l], collapse = "|")
        
@@ -270,7 +270,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
            tempNewArcs <- setdiff(tempNewArcs, subset(tempNewArcs, tempNewArcs$from == lastPart))
            
            # Do not continue
-           continue <- FALSE
+           continue2 <- FALSE
          }
          # Otherwise, add it
          else {
@@ -347,6 +347,7 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
     for(toNode in toNodes) {
       # Evaluate if there is a node
       newTo <- newNodes[grepl(paste0(nsName, "\\|", toNode, "$"), newNodes)]
+      newTo <- newTo[grepl(paste0("^", nsName), newTo)]
       
       # If there is a value, and the transitive is not banned
       if(!identical(newTo, character(0)) & nrow(subset(secondOutput[[3]], from == nn & to == toNode)) == 0) {

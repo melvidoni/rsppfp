@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Node Inclusion Checker — .nodesExists" />
 
-<meta property="og:description" content="Given a graph g, and a data frame of forbidden paths f, the function checks that all nodes
-   used on f are also present on the graph." />
+<meta property="og:description" content="Given a graph g, and a data frame of forbidden paths f, the function
+   checks that all nodes used on f are also present on the graph." />
 
 <meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -138,8 +138,8 @@
 
     <div class="ref-description">
     
-    <p>Given a graph <code>g</code>, and a data frame of forbidden paths <code>f</code>, the function checks that all nodes
-   used on <code>f</code> are also present on the graph.</p>
+    <p>Given a graph <code>g</code>, and a data frame of forbidden paths <code>f</code>, the function
+   checks that all nodes used on <code>f</code> are also present on the graph.</p>
     
     </div>
 
@@ -150,21 +150,23 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>g</th>
-      <td><p>The original graph from which the attributes need to be extracted. This cannot be a G*, and it must
-have at least one attribute, besides the <code>from</code> and <code>to</code> columns.</p></td>
+      <td><p>The original graph from which the attributes need to be extracted. This cannot be a G*,
+and it must have at least one attribute, besides the <code>from</code> and <code>to</code> columns.</p></td>
     </tr>
     <tr>
       <th>f</th>
-      <td><p>The set of forbidden paths, written as a data frame. Each row represents a path as a sequence of
-nodes. Each row may be of different size, filling the empty cells with <code>NA</code>. All nodes involved
-must be part of <code>g</code>, and no forbidden path can be of size 2. This is because the latter is
-thought as an arc that should not exist in the first place.</p></td>
+      <td><p>The set of forbidden paths, written as a data frame. Each row represents a path
+as a sequence of nodes. Each row may be of different size, filling the empty cells with
+<code>NA</code>. All nodes involved must be part of <code>g</code>, and no forbidden path can be of
+size 2. This is because the latter is thought as an arc that should not exist in
+the first place.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if all nodes in <code>f</code> are present in the graph. Otherwise, it returns <code>FALSE</code>.</p>
+    <p><code>TRUE</code> if all nodes in <code>f</code> are present in the graph. Otherwise,
+   it returns <code>FALSE</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 

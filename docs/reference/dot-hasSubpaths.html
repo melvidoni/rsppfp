@@ -32,9 +32,9 @@
 
 <meta property="og:title" content="Subpaths Inclusion Checker — .hasSubpaths" />
 
-<meta property="og:description" content="Given a data frame of forbidden paths f, the function checks that no subpath of any path
-   is included in any other path. It only checks for subpaths of length 3, as it is the minimum
-   combination that can be repeated" />
+<meta property="og:description" content="Given a data frame of forbidden paths f, the function checks that no 
+   subpath of any path is included in any other path. It only checks for subpaths of length 
+   3, as it is the minimum combination that can be repeated" />
 
 <meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -139,9 +139,9 @@
 
     <div class="ref-description">
     
-    <p>Given a data frame of forbidden paths <code>f</code>, the function checks that no subpath of any path
-   is included in any other path. It only checks for subpaths of length 3, as it is the minimum
-   combination that can be repeated</p>
+    <p>Given a data frame of forbidden paths <code>f</code>, the function checks that no 
+   subpath of any path is included in any other path. It only checks for subpaths of length 
+   3, as it is the minimum combination that can be repeated</p>
     
     </div>
 
@@ -152,16 +152,18 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>f</th>
-      <td><p>The set of forbidden paths, written as a data frame. Each row represents a path as a sequence of
-nodes. Each row may be of different size, filling the empty cells with <code>NA</code>. All nodes involved
-must be part of <code>g</code>, and no forbidden path can be of size 2. This is because the latter is
-thought as an arc that should not exist in the first place.</p></td>
+      <td><p>The set of forbidden paths, written as a data frame. Each row represents a path
+as a sequence of nodes. Each row may be of different size, filling the empty cells with
+<code>NA</code>. All nodes involved must be part of <code>g</code>, and no forbidden path can be of
+size 2. This is because the latter is thought as an arc that should not exist in the
+first place.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if there is at least one subpath included in another forbidden path, <code>FALSE</code> otherwise.</p>
+    <p><code>TRUE</code> if there is at least one subpath included in another forbidden path,
+   <code>FALSE</code> otherwise.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 

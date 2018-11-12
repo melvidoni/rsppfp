@@ -23,7 +23,9 @@
 #'    any simple type. No lists or vectors are allowed.
 #' @param dest The name of the destination node from G for the path. It must be written as it
 #'    appears in G, and it is preferable to use a character format, but this can also be of any
-#'    simple type. No lists or vectors are allowed.   
+#'    simple type. No lists or vectors are allowed.  
+#' @param weightColName The name of the weight column used in the dataframe. If the column does not
+#'    exist, a name _must_ be provided so that a new weight column is generated.     
 #'
 #' @return The shortest path from \code{origin} node to \code{dest} node, calculated in G*, to
 #'    include the forbidden paths. It uses igraph's functionalities.
@@ -59,20 +61,19 @@ get_shortest_path <- function(g, origin, dest, weightColName) {
   # Convert the graph
   g.i <- graph_from_data_frame(g)
   
-  # Get all the shortest paths to each node
-  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(g, dest), weights = E(g.i)$weightColName, output = "both")
   
-  # If there are no path, return NA
-  if(length(sp$vpath) == 1 & length(sp$vpath[[1]]) == 0)
-    return(NA)
-  # Otherwise...
-  else {
-    # Return the shortest path
-    sp$vpath[which.min( 
-      foreach(i = 1:length(sp$epath), .combine = c) %do% { 
-        ifelse( length(sp$epath[i]), sum(E(g.i)$weightColName[ sp$epath[[i]] ]), 999999999) 
-      } 
-    )]
-  }
+  # Get all nodes where for the destination is the destination
+  destEq <- get_all_nodes(g, dest)
+  
+  # Find shortest paths from "s" to all N* corresponding to "w"
+  sp <- shortest_paths(g.i, from = origin, to = destEq, 
+                       weights = g$weightColName, output = "both")
+  
+  
+  # Find shortest of these paths
+  dist <- vapply(sp$epath, function(path) sum(path$weightColName), numeric(1)) 
+  shortestPath <- sp$vpath[[which.min(dist)]]
 
+  # Convert path with nodes from N* to path with nodes from N
+  return( parse_vpath(names(shortestPath)) )
 }

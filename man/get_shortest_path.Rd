@@ -18,6 +18,9 @@ any simple type. No lists or vectors are allowed.}
 \item{dest}{The name of the destination node from G for the path. It must be written as it
 appears in G, and it is preferable to use a character format, but this can also be of any
 simple type. No lists or vectors are allowed.}
+
+\item{weightColName}{The name of the weight column used in the dataframe. If the column does not
+exist, a name _must_ be provided so that a new weight column is generated.}
 }
 \value{
 The shortest path from \code{origin} node to \code{dest} node, calculated in G*, to

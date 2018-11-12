@@ -32,15 +32,16 @@
 
 <meta property="og:title" content="igraph Shortest Path — get_shortest_path" />
 
-<meta property="og:description" content="A original node N_i can appear on a transformed gStar as different N_i* equivalent nodes. Therefore, 
-   this becomes a limitation when searching for a shortest path inside gStar. As a result: all N_i* need to be
-   considered as possible destination nodes when looking for the shortest path. This function is a wrapper for this
-   behavior, providing a straightforward implementation using igraph capabilities. However, it aims to provide
+<meta property="og:description" content="A original node N_i can appear on a transformed gStar as different N_i* equivalent
+   nodes. Therefore, this becomes a limitation when searching for a shortest path inside gStar.
+   As a result: all N_i* need to be considered as possible destination nodes when looking for
+   the shortest path. This function is a wrapper for this behavior, providing a straightforward
+   implementation using igraph capabilities. However, it aims to provide
    guidance on how to build a similar algorithm for different path-finding algorithms.   
-It is important to mention that new nodes are only considered as destination nodes, and they are not search
-   for origin nodes. This is because N* nodes can only be reached after traveling through gStar nodes. For example,
-   a node &quot;f|e|r&quot; is actually indicating that &quot;r&quot; has been reached after traveling through the nodes 
-   &quot;f&quot; and &quot;e&quot;." />
+It is important to mention that new nodes are only considered as destination nodes, and they
+   are not search for origin nodes. This is because N* nodes can only be reached after traveling
+   through gStar nodes. For example, a node &quot;f|e|r&quot; is actually indicating that &quot;r&quot;
+   has been reached after traveling through the nodes &quot;f&quot; and &quot;e&quot;." />
 
 <meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -145,15 +146,16 @@ It is important to mention that new nodes are only considered as destination nod
 
     <div class="ref-description">
     
-    <p>A original node N_i can appear on a transformed gStar as different N_i* equivalent nodes. Therefore, 
-   this becomes a limitation when searching for a shortest path inside gStar. As a result: all N_i* need to be
-   considered as possible destination nodes when looking for the shortest path. This function is a wrapper for this
-   behavior, providing a straightforward implementation using igraph capabilities. However, it aims to provide
+    <p>A original node N_i can appear on a transformed gStar as different N_i* equivalent
+   nodes. Therefore, this becomes a limitation when searching for a shortest path inside gStar.
+   As a result: all N_i* need to be considered as possible destination nodes when looking for
+   the shortest path. This function is a wrapper for this behavior, providing a straightforward
+   implementation using igraph capabilities. However, it aims to provide
    guidance on how to build a similar algorithm for different path-finding algorithms.</p>   
-<p>It is important to mention that new nodes are only considered as destination nodes, and they are not search
-   for origin nodes. This is because N* nodes can only be reached after traveling through gStar nodes. For example,
-   a node <code>"f|e|r"</code> is actually indicating that <code>"r"</code> has been reached after traveling through the nodes 
-   <code>"f"</code> and <code>"e"</code>.</p>
+<p>It is important to mention that new nodes are only considered as destination nodes, and they
+   are not search for origin nodes. This is because N* nodes can only be reached after traveling
+   through gStar nodes. For example, a node <code>"f|e|r"</code> is actually indicating that <code>"r"</code>
+   has been reached after traveling through the nodes <code>"f"</code> and <code>"e"</code>.</p>
     
     </div>
 
@@ -164,25 +166,33 @@ It is important to mention that new nodes are only considered as destination nod
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>g</th>
-      <td><p>A gStar digraph in data frame format, translated using one of the available functions. The weight or 
-cost attribute of each arc of the graph must be stored in a specific column named <code>weight</code>.</p></td>
+      <td><p>A gStar digraph in data frame format, translated using one of the available functions.
+The weight or cost attribute of each arc of the graph must be stored in a specific column
+named <code>weight</code>.</p></td>
     </tr>
     <tr>
       <th>origin</th>
-      <td><p>The name of the starting node from G for the path. It must be written as it appears in G, and it is 
-preferable to use a character format, but this can also be of any simple type. No lists or vectors are allowed.</p></td>
+      <td><p>The name of the starting node from G for the path. It must be written as it
+appears in G, and it is preferable to use a character format, but this can also be of
+any simple type. No lists or vectors are allowed.</p></td>
     </tr>
     <tr>
       <th>dest</th>
-      <td><p>The name of the destination node from G for the path. It must be written as it appears in G, and it is 
-preferable to use a character format, but this can also be of any simple type. No lists or vectors are allowed.</p></td>
+      <td><p>The name of the destination node from G for the path. It must be written as it
+appears in G, and it is preferable to use a character format, but this can also be of any
+simple type. No lists or vectors are allowed.</p></td>
+    </tr>
+    <tr>
+      <th>weightColName</th>
+      <td><p>The name of the weight column used in the dataframe. If the column does not
+exist, a name _must_ be provided so that a new weight column is generated.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The shortest path from <code>origin</code> node to <code>dest</code> node, calculated in G*, to include the forbidden paths.
-   It uses igraph's functionalities.</p>
+    <p>The shortest path from <code>origin</code> node to <code>dest</code> node, calculated in G*, to
+   include the forbidden paths. It uses igraph's functionalities.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -191,7 +201,8 @@ preferable to use a character format, but this can also be of any simple type. N
                              <span class='st'>"v"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"s"</span>, <span class='st'>"s|u"</span>, <span class='st'>"u"</span>, <span class='st'>"u|v"</span>),
                     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"t"</span>, <span class='st'>"u|v|y"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>,
                             <span class='st'>"t"</span>, <span class='st'>"u"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"u|v"</span>, <span class='st'>"u|v|y"</span>),
-                   <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>, <span class='fl'>0L</span>, <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>),
+                   <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>, <span class='fl'>0L</span>,
+                              <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>),
                    <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>gStar</span></div><div class='output co'>#&gt;     from    to weight
 #&gt; 1    u|v     t     12
@@ -213,10 +224,7 @@ preferable to use a character format, but this can also be of any simple type. N
 #&gt; 17     u   u|v      4
 #&gt; 18   u|v u|v|y      3</div><div class='input'>
 <span class='co'># Obtain the shortest path</span>
-<span class='fu'>get_shortest_path</span>(<span class='no'>gStar</span>, <span class='st'>"s"</span>, <span class='st'>"v"</span>, <span class='st'>"weight"</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; + 5/11 vertices, named, from d01d6c1:
-#&gt; [1] s   x   y   u   u|v
-#&gt; </div><div class='input'>
+<span class='fu'>get_shortest_path</span>(<span class='no'>gStar</span>, <span class='st'>"s"</span>, <span class='st'>"v"</span>, <span class='st'>"weight"</span>)</div><div class='output co'>#&gt; [1] "s" "x" "y" "u" "v"</div><div class='input'>
 
 </div></pre>
   </div>

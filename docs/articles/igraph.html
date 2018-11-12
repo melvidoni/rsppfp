@@ -124,29 +124,29 @@ fpaths &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span cl
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the algorithm and transform the graph</span>
 gStar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/modify_graph_hsu.html">modify_graph_hsu</a></span>(graph, fpaths)
 gStar
-<span class="co">#&gt;     from    to  cost</span>
-<span class="co">#&gt; 1      s     u     1</span>
-<span class="co">#&gt; 2      s     w     4</span>
-<span class="co">#&gt; 3      s     x     1</span>
-<span class="co">#&gt; 7      w     y     2</span>
-<span class="co">#&gt; 9      x     y     1</span>
-<span class="co">#&gt; 10     v     y     4</span>
-<span class="co">#&gt; 11     v     t     1</span>
-<span class="co">#&gt; 12     y     t     3</span>
-<span class="co">#&gt; 13     y     u     9</span>
-<span class="co">#&gt; 14     u   u|v     7</span>
-<span class="co">#&gt; 21   u|v u|v|y     4</span>
-<span class="co">#&gt; 31     u   u|w     2</span>
-<span class="co">#&gt; 4    u|w u|v|y     2</span>
-<span class="co">#&gt; 16     w   w|v     1</span>
-<span class="co">#&gt; 23     x   x|w     5</span>
-<span class="co">#&gt; 33   x|w x|w|v     1</span>
-<span class="co">#&gt; 17   w|v     t     1</span>
-<span class="co">#&gt; 24   x|w     y     2</span>
-<span class="co">#&gt; 34 x|w|v     t     1</span>
-<span class="co">#&gt; 41   u|v     t     1</span>
-<span class="co">#&gt; 5  u|v|y     t     3</span>
-<span class="co">#&gt; 6    u|w   w|v x|w|v</span></code></pre></div>
+<span class="co">#&gt;     from    to cost</span>
+<span class="co">#&gt; 1      s     u    1</span>
+<span class="co">#&gt; 2      s     w    4</span>
+<span class="co">#&gt; 3      s     x    1</span>
+<span class="co">#&gt; 7      w     y    2</span>
+<span class="co">#&gt; 9      x     y    1</span>
+<span class="co">#&gt; 10     v     y    4</span>
+<span class="co">#&gt; 11     v     t    1</span>
+<span class="co">#&gt; 12     y     t    3</span>
+<span class="co">#&gt; 13     y     u    9</span>
+<span class="co">#&gt; 14     u   u|v    7</span>
+<span class="co">#&gt; 21   u|v u|v|y    4</span>
+<span class="co">#&gt; 31     u   u|w    2</span>
+<span class="co">#&gt; 4    u|w u|v|y    2</span>
+<span class="co">#&gt; 16     w   w|v    1</span>
+<span class="co">#&gt; 23     x   x|w    5</span>
+<span class="co">#&gt; 33   x|w x|w|v    1</span>
+<span class="co">#&gt; 17   w|v     t    1</span>
+<span class="co">#&gt; 24   x|w     y    2</span>
+<span class="co">#&gt; 34 x|w|v     t    1</span>
+<span class="co">#&gt; 41   u|v     t    1</span>
+<span class="co">#&gt; 5  u|v|y     t    3</span>
+<span class="co">#&gt; 6    u|w   w|v    1</span></code></pre></div>
 </div>
 <div id="integration-with-igraph" class="section level2">
 <h2 class="hasAnchor">
@@ -177,34 +177,28 @@ gStar.igraph &lt;-<span class="st"> </span><span class="kw">graph_from_data_fram
   <span class="co"># Convert the graph</span>
   g.i &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(g)
   
-  <span class="co"># Get all the shortest paths to each node</span>
-  sp &lt;-<span class="st"> </span><span class="kw">shortest_paths</span>(g.i, <span class="dt">from =</span> origin, <span class="dt">to =</span> <span class="kw"><a href="../reference/get_all_nodes.html">get_all_nodes</a></span>(g, dest), <span class="dt">weights =</span> <span class="kw">E</span>(g.i)<span class="op">$</span>weightColName, <span class="dt">output =</span> <span class="st">"both"</span>)
   
-  <span class="co"># If there are no path, return NA</span>
-  <span class="cf">if</span>(<span class="kw">length</span>(sp<span class="op">$</span>vpath) <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">length</span>(sp<span class="op">$</span>vpath[[<span class="dv">1</span>]]) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
-    <span class="kw">return</span>(<span class="ot">NA</span>)
-  <span class="co"># Otherwise...</span>
-  <span class="cf">else</span> {
-    <span class="co"># Return the shortest path</span>
-    sp<span class="op">$</span>vpath[<span class="kw">which.min</span>( 
-      <span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(sp<span class="op">$</span>epath), <span class="dt">.combine =</span> c) <span class="op">%do%</span><span class="st"> </span>{ 
-        <span class="kw">ifelse</span>( <span class="kw">length</span>(sp<span class="op">$</span>epath[i]), <span class="kw">sum</span>(<span class="kw">E</span>(g.i)<span class="op">$</span>weightColName[ sp<span class="op">$</span>epath[[i]] ]), <span class="dv">999999999</span>) 
-      } 
-    )]
-  }
+  <span class="co"># Get all nodes where for the destination is the destination</span>
+  destEq &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_all_nodes.html">get_all_nodes</a></span>(gStar, dest)
+  
+  <span class="co"># Find shortest paths from "s" to all N* corresponding to "w"</span>
+  sp &lt;-<span class="st"> </span><span class="kw">shortest_paths</span>(gStar.igraph, <span class="dt">from =</span> origin, <span class="dt">to =</span> destEq, 
+                       <span class="dt">weights =</span> gStar<span class="op">$</span>weightColName, <span class="dt">output =</span> <span class="st">"both"</span>)
+  
+  
+  <span class="co"># Find shortest of these paths</span>
+  dist &lt;-<span class="st"> </span><span class="kw">vapply</span>(sp<span class="op">$</span>epath, <span class="cf">function</span>(path) <span class="kw">sum</span>(path<span class="op">$</span>weightColName), <span class="kw">numeric</span>(<span class="dv">1</span>)) 
+  shortestPath &lt;-<span class="st"> </span>sp<span class="op">$</span>vpath[[<span class="kw">which.min</span>(dist)]]
 
+  <span class="co"># Convert path with nodes from N* to path with nodes from N</span>
+  <span class="kw">return</span>( <span class="kw"><a href="../reference/parse_vpath.html">parse_vpath</a></span>(<span class="kw">names</span>(shortestPath)) )
 }</code></pre></div>
 <p>And it can be used as in the following example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Obtain the shortest path using the simplified function</span>
 shortestPath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_shortest_path.html">get_shortest_path</a></span>(gStar, <span class="st">"u"</span>, <span class="st">"t"</span>, <span class="st">"cost"</span>)
 shortestPath
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; + 3/13 vertices, named, from 9d68b03:</span>
-<span class="co">#&gt; [1] u   u|v t</span></code></pre></div>
-<p>Also, it is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In igraph, this is known as <code>vpaths</code> (vertexes paths).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Translate the vpath</span>
-<span class="kw"><a href="../reference/parse_vpath.html">parse_vpath</a></span>(<span class="kw">V</span>(gStar.igraph)<span class="op">$</span>name[ <span class="kw">unlist</span>(shortestPath) ])
 <span class="co">#&gt; [1] "u" "v" "t"</span></code></pre></div>
+<p>Also, it is worth pointing out that a path can only be translated if it is presented as a list or vector of nodes, written sequentially. In igraph, this is known as <code>vpaths</code> (vertexes paths). However, this step is done inside the convenience function.</p>
 </div>
   </div>
 

@@ -32,11 +32,13 @@
 
 <meta property="og:title" content="Parser for G* nodes. — get_all_nodes" />
 
-<meta property="og:description" content="A original node N_i can appear on a transformed G* as different nodes. This is the result of
-   the creation of nodes in the transformation processes. Therefore, it is possible that the original node N
-   does not exists on G*, or that multiple N_i* exist. Hence, as all new nodes are generated using a specific
-   structure for the name -compiling all previous nodes names, split by pipe-, this function allows searching
-   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest paths to all of them." />
+<meta property="og:description" content="A original node N_i can appear on a transformed G* as different nodes.
+   This is the result of the creation of nodes in the transformation processes. Therefore,
+   it is possible that the original node N does not exists on G*, or that multiple N_i*
+   exist. Hence, as all new nodes are generated using a specific structure for the name
+   -compiling all previous nodes names, split by pipe-, this function allows searching
+   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest 
+   paths to all of them." />
 
 <meta property="og:image" content="http://melvidoni.github.io/rsppfp/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -141,11 +143,13 @@
 
     <div class="ref-description">
     
-    <p>A original node N_i can appear on a transformed G* as different nodes. This is the result of
-   the creation of nodes in the transformation processes. Therefore, it is possible that the original node N
-   does not exists on G*, or that multiple N_i* exist. Hence, as all new nodes are generated using a specific
-   structure for the name -compiling all previous nodes names, split by pipe-, this function allows searching
-   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest paths to all of them.</p>
+    <p>A original node N_i can appear on a transformed G* as different nodes.
+   This is the result of the creation of nodes in the transformation processes. Therefore,
+   it is possible that the original node N does not exists on G*, or that multiple N_i*
+   exist. Hence, as all new nodes are generated using a specific structure for the name
+   -compiling all previous nodes names, split by pipe-, this function allows searching
+   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest 
+   paths to all of them.</p>
     
     </div>
 
@@ -160,15 +164,16 @@
     </tr>
     <tr>
       <th>originalNode</th>
-      <td><p>The name of the original node from G, that needs to be searched within G*. It is preferable
-to use a character format, but this can also be of any simple type. No lists or vectors are allowed.</p></td>
+      <td><p>The name of the original node from G, that needs to be searched
+within G*. It is preferable to use a character format, but this can also be of any
+simple type. No lists or vectors are allowed.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A new vector of character type, whose elements are all the N_i* equivalent to the original N node. This
-   also includes the original node.</p>
+    <p>A new vector of character type, whose elements are all the N_i* equivalent to
+   the original N node. This also includes the original node.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -182,7 +187,8 @@ to use a character format, but this can also be of any simple type. No lists or 
                              <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"s"</span>, <span class='st'>"s|u"</span>, <span class='st'>"u"</span>, <span class='st'>"u|v"</span>),
                     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"t"</span>, <span class='st'>"u|v|y"</span>, <span class='st'>"w"</span>, <span class='st'>"w"</span>, <span class='st'>"x"</span>, <span class='st'>"w"</span>, <span class='st'>"v"</span>, <span class='st'>"y"</span>, <span class='st'>"w"</span>, <span class='st'>"y"</span>, <span class='st'>"y"</span>, <span class='st'>"t"</span>,
                            <span class='st'>"t"</span>, <span class='st'>"u"</span>, <span class='st'>"s|u"</span>, <span class='st'>"s|u|v"</span>, <span class='st'>"u|v"</span>, <span class='st'>"u|v|y"</span>),
-                    <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>, <span class='fl'>0L</span>, <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>),
+                    <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>12L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>, <span class='fl'>9L</span>, <span class='fl'>7L</span>, <span class='fl'>5L</span>, <span class='fl'>11L</span>, <span class='fl'>10L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>12L</span>, <span class='fl'>13L</span>,
+                               <span class='fl'>0L</span>, <span class='fl'>8L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>),
                     <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>gStar</span></div><div class='output co'>#&gt;     from    to weight
 #&gt; 1    u|v     t     12

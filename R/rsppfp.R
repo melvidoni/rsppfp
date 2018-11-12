@@ -14,3 +14,6 @@
 #' @docType package
 #' @name rsppfp
 NULL
+
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+globalVariables(c("from", "to", "node1", "rowid", "node3", "var", "startNode", "k", "bn", "nn", "i"))
