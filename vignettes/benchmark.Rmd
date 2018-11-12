@@ -4,7 +4,7 @@ resource_files:
   - execTime.rds
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Transformations Benchmark}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -185,7 +185,7 @@ ggplot(data = data, aes(x = nodes, y = value, group = interaction(fpaths, algori
 ```
 
 
-As can be seen, in all situations the more general algorithm (Hsu's) takes longer to complete, though this difference increases with the number of forbidden paths and arcs. It is worth mentioning that this is expected behavior, as the transformation logic iterates on the forbidden paths `F` –each one needs to be individually evaluated to add new nodes and arcs to the graph. Because of its logic, Hsu’s backward construction always produces a smaller `gStar` with less nodes and arcs, while Villeneuve’s algorithm is slightly faster; this difference is noticeable for larger values of `F`.
+As can be seen, in all situations the more general algorithm (Hsu's) takes longer to complete, though this difference increases with the number of forbidden paths and density. It is worth mentioning that this is expected behavior, as the transformation logic iterates on the forbidden paths `F` –each one needs to be individually evaluated to add new nodes and arcs to the graph. Because of its logic, Hsu’s backward construction always produces a smaller `gStar` with less nodes and arcs, while Villeneuve’s algorithm is slightly faster; this difference is noticeable for larger values of `F`.
 
 
 

@@ -7,25 +7,28 @@
 .get_arc_attributes(g, f, t)
 }
 \arguments{
-\item{g}{The original graph from which the attributes need to be extracted. This cannot be a G*, and it must
-have at least one attribute, besides the \code{from} and \code{to} columns.}
+\item{g}{The original graph from which the attributes need to be extracted. This cannot be
+a G*, and it must have at least one attribute, besides the \code{from} and \code{to} columns.}
 
-\item{from}{The name of the node that needs to be the origin of the arc that will be searched for.}
+\item{f}{The name of the node that needs to be the origin of the arc that will be searched for.}
 
-\item{to}{The name of the node that needs to be de destination of the arc that will be searched for.}
+\item{t}{The name of the node that needs to be de destination of the arc that will be searched for.}
 }
 \value{
-A list of the attributes for the corresponding arc. Since this function is called from a controlled
-   space, it assumes that the arc always exists.
+A list of the attributes for the corresponding arc. Since this function is called 
+   from a controlled space, it assumes that the arc always exists.
 }
 \description{
-Given a graph G, and two nodes \code{from} and \code{to}. The function searches for the arc that
-   goes in the direction "from-to", and returns a list of its attributes, without the original nodes.
+Given a graph G, and two nodes \code{from} and \code{to}. The function searches for
+   the arc that goes in the direction "from-to", and returns a list of its attributes,
+   without the original nodes.
 }
 \details{
 Private function that cannot be used by the package's end-users.
 }
 \seealso{
-Other Private Functions: \code{\link{.comb}}
+Other Private Functions: \code{\link{.comb}},
+  \code{\link{.hasSubpaths}}, \code{\link{.nodesExists}}
 }
 \concept{Private Functions}
+\keyword{internal}

@@ -1,16 +1,16 @@
 #' @export
 #' @title Parser for G* nodes paths.
 #'
-#' @description Translates a sequence of nodes from a G* graph, generated with any of the available
-#' transformations, to a sequence of nodes in terms of the original G.
+#' @description Translates a sequence of nodes from a G* graph, generated with any of the 
+#' available transformations, to a sequence of nodes in terms of the original G.
 #'
 #' @family Parsers
 #'
-#' @param vpath A vector of character type, representing a path as a sequence of nodes. The nodes are
-#'    supposed to belong to an original graph G, but be written in terms of G*.
+#' @param vpath A vector of character type, representing a path as a sequence of nodes. The nodes
+#'    are supposed to belong to an original graph G, but be written in terms of G*.
 #'
-#' @return A new vector of character type, representing the same path as \code{vpath} but with the nodes
-#'    names translated to the original graph G's names.
+#' @return A new vector of character type, representing the same path as \code{vpath} but with 
+#'    the nodes names translated to the original graph G's names.
 #'
 #' @examples
 #' # Obtain the vpath from any way, an algorithm or random walk.
@@ -41,25 +41,28 @@ parse_vpath <- function(vpath) {
 #' @export
 #' @title Undirected Graph Translator
 #'
-#' @description The SPPFP transformation functions only work with digraphs -i.e. directed graphs. Because in a digraph
-#'    arcs can only be traveled in one direction, from the origin node to the destination arc, if undirected graphs are
-#'    used as-is, the resultng G* will not be accurate. Therefore, this functions translates an undirected graph to a
+#' @description The SPPFP transformation functions only work with digraphs -i.e. directed graphs.
+#'    Because in a digraph arcs can only be traveled in one direction, from the origin node to the
+#'    destination arc, if undirected graphs are used as-is, the resultng G* will not be accurate.
+#'    Therefore, this functions translates an undirected graph to a
 #'    digraph by duplicating each arc and swapping the duplicate's \code{from} and \code{to} nodes.
 #'
 #' @family Parsers
 #'
-#' @param graph An undirected graph written as a data frame, in which each rows represent an arc. The columns
-#'    must be named \code{from} and \code{to}, and can be of any data type. Each row can have additional
-#'    attributes, and no cells can be \code{NULL} or \code{NA}.
-#' @param cores This algorithm can be run using R's parallel processing functions. This variable represents
-#'    the number of processing cores you want to assign for the transformation. The default value is one single
-#'    core. It is suggested to not assign all of your available cores to the function.
+#' @param graph An undirected graph written as a data frame, in which each rows represent an arc. 
+#'    The columns must be named \code{from} and \code{to}, and can be of any data type. Each row
+#'    can have additional attributes, and no cells can be \code{NULL} or \code{NA}.
+#' @param cores This algorithm can be run using R's parallel processing functions. This variable
+#'    represents the number of processing cores you want to assign for the transformation. The 
+#'    default value is one single core. It is suggested to not assign all of your available cores
+#'    to the function.
 #'
-#' @return A new graph, with the same columns and data types of the original graph. This new graph is twice as
-#'    big as the original, as new arcs are added to represent that each arc can be traveled in both directions.
+#' @return A new graph, with the same columns and data types of the original graph. This new
+#'   graph is twice as big as the original, as new arcs are added to represent that each arc can 
+#'   be traveled in both directions.
 #' 
 #' @importFrom foreach %dopar% 
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom parallel makeCluster
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel stopCluster
@@ -118,20 +121,23 @@ direct_graph <- function(graph, cores = 1L) {
 #' @export
 #' @title Parser for G* nodes.
 #'
-#' @description A original node N_i can appear on a transformed G* as different nodes. This is the result of
-#'    the creation of nodes in the transformation processes. Therefore, it is possible that the original node N
-#'    does not exists on G*, or that multiple N_i* exist. Hence, as all new nodes are generated using a specific
-#'    structure for the name -compiling all previous nodes names, split by pipe-, this function allows searching
-#'    for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest paths to all of them.
+#' @description A original node N_i can appear on a transformed G* as different nodes.
+#'    This is the result of the creation of nodes in the transformation processes. Therefore,
+#'    it is possible that the original node N does not exists on G*, or that multiple N_i*
+#'    exist. Hence, as all new nodes are generated using a specific structure for the name
+#'    -compiling all previous nodes names, split by pipe-, this function allows searching
+#'    for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest 
+#'    paths to all of them.
 #'
 #' @family Parsers
 #'
 #' @param g A graph in data frame format, translated using one of the available functions.
-#' @param originalNode The name of the original node from G, that needs to be searched within G*. It is preferable
-#'    to use a character format, but this can also be of any simple type. No lists or vectors are allowed.
+#' @param originalNode The name of the original node from G, that needs to be searched
+#'    within G*. It is preferable to use a character format, but this can also be of any
+#'    simple type. No lists or vectors are allowed.
 #'
-#' @return A new vector of character type, whose elements are all the N_i* equivalent to the original N node. This
-#'    also includes the original node.
+#' @return A new vector of character type, whose elements are all the N_i* equivalent to
+#'    the original N node. This also includes the original node.
 #'
 #' @examples
 #' # Given a specific gStar graph:
@@ -139,7 +145,8 @@ direct_graph <- function(graph, cores = 1L) {
 #'                              "v", "y", "y", "s", "s|u", "u", "u|v"), 
 #'                     to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
 #'                            "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
-#'                     weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L), 
+#'                     weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 
+#'                                0L, 8L, 4L, 4L, 3L), 
 #'                     stringsAsFactors = FALSE)
 #' gStar
 #' 

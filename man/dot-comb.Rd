@@ -6,14 +6,20 @@
 \usage{
 .comb(x, ...)
 }
+\arguments{
+\item{x}{Dataframes to be merged using \code{rbind}.}
+}
 \description{
-This function combines the outputs produced on the parallel loop of the Villeneuve and
-   Desaulnier's algorithm implementations. It cannot be used for other purposes.
+This function combines the outputs produced on the parallel loop of
+   the Villeneuve and Desaulnier's algorithm implementations.
+   It cannot be used for other purposes.
 }
 \details{
 Private function that cannot be used by the package's end-users.
 }
 \seealso{
-Other Private Functions: \code{\link{.get_arc_attributes}}
+Other Private Functions: \code{\link{.get_arc_attributes}},
+  \code{\link{.hasSubpaths}}, \code{\link{.nodesExists}}
 }
 \concept{Private Functions}
+\keyword{internal}

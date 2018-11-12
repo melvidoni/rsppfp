@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 resource_files:
   - fig2.png
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Example: Other Packages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,6 @@ library(igraph)
 library(foreach)
 library(doParallel)
 library(dplyr)
-library(magrittr)
 ```
 
 
@@ -40,7 +39,7 @@ graph <- data.frame(from = c("s", "s", "s", "u", "u", "w", "w", "x", "x", "v", "
 
 # Load the forbidden paths
 fpaths <- data.frame(V1 = c("u", "u", "w", "x"), V2 = c("v", "w", "v","w"), V3 = c("y", "y", "y", "v"),
-                     V4 = c("u", "u", "", "y"), V5 = c("", "", "", "t"), stringsAsFactors = FALSE)
+                     V4 = c("u", "u", NA, "y"), V5 = c(NA, NA, NA, "t"), stringsAsFactors = FALSE)
 ```
 
 
@@ -92,19 +91,32 @@ This algorithm has been implemented for igraph in an example function, named [`g
 Its code is the following:
 
 ```{r, eval=FALSE}
-get_shortest_path <- function(g, origin, dest) {
+get_shortest_path <- function(g, origin, dest, weightColName) {
+  #If there is no weight column
+  if(!weightColName %in% colnames(g)) {
+    g$weight <- 1
+    weightColName <- "weight"
+  }
+  
   # Convert the graph
   g.i <- graph_from_data_frame(g)
   
   # Get all the shortest paths to each node
-  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(g, dest), weights = E(g.i)$weight, output = "both")
+  sp <- shortest_paths(g.i, from = origin, to = get_all_nodes(g, dest), weights = E(g.i)$weightColName, output = "both")
   
-  # Return the shortest path
-  sp$vpath[which.min( 
-    foreach(i = 1:length(sp$epath), .combine = c) %do% { 
-      ifelse( length(sp$epath[i]), sum(E(g.i)$weight[ sp$epath[[i]] ]), 999999999) 
-    } 
-  )]
+  # If there are no path, return NA
+  if(length(sp$vpath) == 1 & length(sp$vpath[[1]]) == 0)
+    return(NA)
+  # Otherwise...
+  else {
+    # Return the shortest path
+    sp$vpath[which.min( 
+      foreach(i = 1:length(sp$epath), .combine = c) %do% { 
+        ifelse( length(sp$epath[i]), sum(E(g.i)$weightColName[ sp$epath[[i]] ]), 999999999) 
+      } 
+    )]
+  }
+
 }
 ```
 
@@ -112,7 +124,7 @@ And it can be used as in the following example:
 
 ```{r, warning=FALSE}
 # Obtain the shortest path using the simplified function
-shortestPath <- get_shortest_path(gStar, "u", "t")
+shortestPath <- get_shortest_path(gStar, "u", "t", "cost")
 shortestPath
 ```
 

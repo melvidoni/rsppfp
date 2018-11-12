@@ -3,7 +3,7 @@ title: "rsppfp Description"
 output: rmarkdown::html_vignette
 import: rsppfp
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{rsppfp Description}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 library(rsppfp)
 library(foreach)
 library(doParallel)
-library(magrittr)
 library(dplyr)
 ```
 

@@ -1,3 +1,14 @@
+## RSPPFP 1.0.3
+Stable release of advanced implementation of rsppfp, with minor bug fixes. Released November 2018.
+
+### Minor Bug Fixes and Improvements
+ - Additional checks have been added to Hsu's and Villeneuve's transformation. The algorithms now stop if certain conditions are not met, such as: columns' names, use of non-existent nodes in forbidden paths, and subpaths inclusions for Villeneuve's algorithms.
+ - Additional handling of the weight has been added to the convenience function `get_shortest_path()`. The user is now required to explicit the `weight` attribute name. If it does not exist, a standard weight of 1 is added to the graph.
+ - All examples and documentation now feature data frames created with `data.frame()`, instead of using `structure()` The importance of using `stringAsFactors = FALSE` has been highlighted.
+ - Cluster closing has been moved to `on.exit()`, so that if the function terminates early, all the connections will still be closed.
+ - The benchmark on the website now showcases the results for all the evaluated density types.
+
+
 ## RSPPFP 1.0.2
 Stable release of advanced implementation of rsppfp, with minor bug fixes. Released October 2018.
 

@@ -7,3 +7,4 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^docs$
+vignettes/references.Rmd

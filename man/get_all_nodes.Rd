@@ -9,19 +9,22 @@ get_all_nodes(g, originalNode)
 \arguments{
 \item{g}{A graph in data frame format, translated using one of the available functions.}
 
-\item{originalNode}{The name of the original node from G, that needs to be searched within G*. It is preferable
-to use a character format, but this can also be of any simple type. No lists or vectors are allowed.}
+\item{originalNode}{The name of the original node from G, that needs to be searched
+within G*. It is preferable to use a character format, but this can also be of any
+simple type. No lists or vectors are allowed.}
 }
 \value{
-A new vector of character type, whose elements are all the N_i* equivalent to the original N node. This
-   also includes the original node.
+A new vector of character type, whose elements are all the N_i* equivalent to
+   the original N node. This also includes the original node.
 }
 \description{
-A original node N_i can appear on a transformed G* as different nodes. This is the result of
-   the creation of nodes in the transformation processes. Therefore, it is possible that the original node N
-   does not exists on G*, or that multiple N_i* exist. Hence, as all new nodes are generated using a specific
-   structure for the name -compiling all previous nodes names, split by pipe-, this function allows searching
-   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest paths to all of them.
+A original node N_i can appear on a transformed G* as different nodes.
+   This is the result of the creation of nodes in the transformation processes. Therefore,
+   it is possible that the original node N does not exists on G*, or that multiple N_i*
+   exist. Hence, as all new nodes are generated using a specific structure for the name
+   -compiling all previous nodes names, split by pipe-, this function allows searching
+   for all the N_i* nodes that are equivalente to N_i. This can be used to find shortest 
+   paths to all of them.
 }
 \examples{
 # Given a specific gStar graph:
@@ -29,7 +32,8 @@ gStar <- data.frame(from = c("u|v", "s|u|v", "s|u", "s", "s", "u", "w", "w", "x"
                              "v", "y", "y", "s", "s|u", "u", "u|v"), 
                     to = c("t", "u|v|y", "w", "w", "x", "w", "v", "y", "w", "y", "y", "t", 
                            "t", "u", "s|u", "s|u|v", "u|v", "u|v|y"), 
-                    weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 0L, 8L, 4L, 4L, 3L), 
+                    weight = c(12L, 3L, 5L, 9L, 7L, 5L, 11L, 10L, 1L, 2L, 3L, 12L, 13L, 
+                               0L, 8L, 4L, 4L, 3L), 
                     stringsAsFactors = FALSE)
 gStar
 

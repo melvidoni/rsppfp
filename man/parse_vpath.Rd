@@ -7,16 +7,16 @@
 parse_vpath(vpath)
 }
 \arguments{
-\item{vpath}{A vector of character type, representing a path as a sequence of nodes. The nodes are
-supposed to belong to an original graph G, but be written in terms of G*.}
+\item{vpath}{A vector of character type, representing a path as a sequence of nodes. The nodes
+are supposed to belong to an original graph G, but be written in terms of G*.}
 }
 \value{
-A new vector of character type, representing the same path as \code{vpath} but with the nodes
-   names translated to the original graph G's names.
+A new vector of character type, representing the same path as \code{vpath} but with 
+   the nodes names translated to the original graph G's names.
 }
 \description{
-Translates a sequence of nodes from a G* graph, generated with any of the available
-transformations, to a sequence of nodes in terms of the original G.
+Translates a sequence of nodes from a G* graph, generated with any of the 
+available transformations, to a sequence of nodes in terms of the original G.
 }
 \examples{
 # Obtain the vpath from any way, an algorithm or random walk.
