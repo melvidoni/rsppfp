@@ -7,7 +7,7 @@ Maintainer: Melina Vidoni <melinavidoni@santafe-conicet.gov.ar>
 Description: An implementation of functionalities to transform directed graphs that are bound to a set of
   known forbidden paths. There are several transformations, following the rules provided by Villeneuve 
   and Desaulniers (2005) <doi: 10.1016/j.ejor.2004.01.032>, and Hsu et al. (2009) <doi: 10.1007/978-3-642-03095-6_60>. 
-  The resulting graph is generated in a data-frame format. Seersppfp website for more information, 
+  The resulting graph is generated in a data-frame format. See rsppfp website for more information, 
   documentation an examples.
 Depends: R (>= 3.4.0)
 Imports: dplyr,
@@ -16,7 +16,7 @@ Imports: dplyr,
     igraph,
     tidyr,
     stringr
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0

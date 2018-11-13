@@ -22,7 +22,7 @@ library(dplyr)
 ```
 
 
-This is an example to showcase how **rsppfp** can be used along with other existing packages. The full code is accessible from R-SPPFP’s GitHub repository in the [examples package](https://github.com/melvidoni/rsppfp/tree/master/examples). 
+This is an example to showcase how **rsppfp** can be used along with other existing packages. 
 
 
 ## Preparing the Input
