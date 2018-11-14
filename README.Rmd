@@ -18,7 +18,7 @@ This problem is solved by transforming the original graph `G` and its set of for
 This solving process is illustrated in Figure 1, using a paper notation to indicate input and output data. Even more, rsppfp scope and key functionalities are also highlighted.
 
 ```{r out.width = '100%', fig.align="center", fig.cap="Figure 1. Flow diagram showcasing an SPPFP solving process, and highlighting rsppfp package's contribution.", echo=FALSE}
-knitr::include_graphics("man/figures/Fig1.png", 
+knitr::include_graphics("man/figures/fig1.png", 
                         auto_pdf = getOption("knitr.graphics.auto_pdf", FALSE), 
                         dpi = NULL)
 ```
