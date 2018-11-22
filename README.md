@@ -1,7 +1,7 @@
 # rsppfp <img src="man/figs/logo.png" align="right" alt="" />
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsppfp)](https://cran.r-project.org/package=rsppfp)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rsppfp?color=yellow)](https://cranlogs.r-pkg.org/badges/grand-total/rsppfp?color=yellow)
 [![Travis-CI Build Status](https://travis-ci.org/melvidoni/rsppfp.svg?branch=master)](https://travis-ci.org/melvidoni/rsppfp)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/melvidoni/rsppfp?branch=master&svg=true)](https://ci.appveyor.com/project/melvidoni/rsppfp)
 [![Coverage Status](https://img.shields.io/codecov/c/github/melvidoni/rsppfp/master.svg)](https://codecov.io/github/melvidoni/rsppfp?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1412539.svg)](https://doi.org/10.5281/zenodo.1412539)
@@ -17,7 +17,7 @@ This problem is solved by transforming the original graph `G` and its set of for
 
 This solving process is illustrated in Figure 1, using a paper notation to indicate input and output data. Even more, rsppfp scope and key functionalities are also highlighted.
 
-![]("man/figures/fig1.png")
+![](man/figures/fig1.png)
 
 
 ## Algorithms
@@ -32,7 +32,14 @@ Both algorithms are analyzed using 27 graphs, randomly generated. The complete b
 
 ## Installation
 
-You can install the development version of rsppfp from GitHub with:
+As from 2018-11-22 you can install **rsppfp** directly from CRAN, using:
+
+```{r cran-install, eval = FALSE}
+install.packages("rsppfp")
+```
+
+
+You can also install the development version of rsppfp from GitHub with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
