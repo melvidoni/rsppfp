@@ -33,6 +33,7 @@
 #' @importFrom igraph graph_from_data_frame
 #' @importFrom igraph shortest_paths
 #' @importFrom igraph E
+#' @importFrom igraph edge_attr
 #' @importFrom foreach %do%
 #' @importFrom foreach foreach    
 #'
@@ -51,29 +52,44 @@
 #' get_shortest_path(gStar, "s", "v", "weight")                                                 
 #'
 #'
-get_shortest_path <- function(g, origin, dest, weightColName) {
-  #If there is no weight column
-  if(!weightColName %in% colnames(g)) {
+get_shortest_path <- function(g, origin, dest, weightColName = NULL) {
+  #If there is no weight column specified, assume equal weights
+  if(is.null(weightColName)) {
     g$weight <- 1
     weightColName <- "weight"
+  # If the column could not be found...
+  } else if(!weightColName %in% colnames(g)) {
+    #Show an error
+    stop(weightColName, " is not a variable in `g`.")
   }
   
   # Convert the graph
   g.i <- graph_from_data_frame(g)
   
-  
   # Get all nodes where for the destination is the destination
   destEq <- get_all_nodes(g, dest)
   
-  # Find shortest paths from "s" to all N* corresponding to "w"
-  sp <- shortest_paths(g.i, from = origin, to = destEq, 
-                       weights = g$weightColName, output = "both")
+  # Find shortest paths from `origin` to all N* corresponding to `dest`
+  # - suppress warning if not all destinations reachable
+  sp <- suppressWarnings(shortest_paths(g.i, from = origin, to = destEq,
+                                        weights = edge_attr(g.i, weightColName),
+                                        output = "both"))
   
+  # Filter out zero-length paths (return if nothing left)
+  zero_length <- lengths(sp$epath) == 0
+  if (all(zero_length)) {
+    warning("There is no path from ", origin, " to ", dest, ".\n")
+    return (character(0))
+  } else {
+    sp <- lapply(sp, function(element) element[!zero_length])
+  }
   
-  # Find shortest of these paths
-  dist <- vapply(sp$epath, function(path) sum(path$weightColName), numeric(1)) 
+  # Find shortest of remaining paths
+  dist <- vapply(sp$epath, 
+                 function(path) sum(edge_attr(g.i, weightColName, path)),
+                 numeric(1)) 
   shortestPath <- sp$vpath[[which.min(dist)]]
-
+  
   # Convert path with nodes from N* to path with nodes from N
   return( parse_vpath(names(shortestPath)) )
 }

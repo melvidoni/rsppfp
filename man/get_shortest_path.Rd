@@ -4,7 +4,7 @@
 \alias{get_shortest_path}
 \title{igraph Shortest Path}
 \usage{
-get_shortest_path(g, origin, dest, weightColName)
+get_shortest_path(g, origin, dest, weightColName = NULL)
 }
 \arguments{
 \item{g}{A gStar digraph in data frame format, translated using one of the available functions.

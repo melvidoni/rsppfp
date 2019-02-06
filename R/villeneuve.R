@@ -74,7 +74,7 @@ modify_graph_vd <- function(g, f, cores = 1L) {
   }
   # Check that there are no subpaths in f, otherwise halt the algo
   if(.hasSubpaths(f)) {
-    stop("There are subpaths of some forbidden paths that belong to another subpaths. Use modify_graph_hsu() instead.")
+    stop("There are subpaths of some forbidden paths that belong to another forbidden paths. Use modify_graph_hsu() instead.")
   }
   
   
@@ -128,7 +128,7 @@ modify_graph_vd <- function(g, f, cores = 1L) {
     list(tempNewArcs, tempDelete, tempBannedArcs)
   }
   # Remove deleted arcs from here
-  g <- g[!(g$from %in% firstOutput[[2]]$from & g$to %in% firstOutput[[2]]$to),]
+  g <- dplyr::anti_join(g, firstOutput[[2]], by = c("from", "to"))
   
   
   # Now through the new nodes

@@ -1,6 +1,6 @@
 Package: rsppfp
 Title: R's Shortest Path Problem with Forbidden Subpaths
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(person("Melina", "Vidoni", email = "melinavidoni@santafe-conicet.gov.ar", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4099-1430")),
              person("Aldo", "Vecchietti", email = "aldovec@santafe-conicet.gov.ar", role = "aut"))
 Maintainer: Melina Vidoni <melinavidoni@santafe-conicet.gov.ar>
@@ -19,7 +19,7 @@ Imports: dplyr,
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown,
     testthat,

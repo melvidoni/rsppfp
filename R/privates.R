@@ -41,7 +41,14 @@
 #'    from a controlled space, it assumes that the arc always exists.
 #'
 .get_arc_attributes <- function(g, f, t) {
-  subset(g, from == f & to == t)[1,3:length(colnames(g))]
+  ss <- subset(g, from == f & to == t)[1,3:length(colnames(g))] %>% as.data.frame()
+
+  for(i in 3:ncol(g)) {
+    if(is.numeric(g[,i]) | is.integer(g[,i]))
+      ss[,(i-2)] <- as.numeric(ss[,(i-2)])
+  }
+  
+  return(ss)
 }
 
 

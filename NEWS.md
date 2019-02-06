@@ -1,3 +1,12 @@
+## RSPPFP 1.0.4
+Stable release with minor bug fixes. Released February 2019.
+
+### Minor Bug Fixes and Improvements
+ - Fixed bugs for missing nodes on both transformation algorithms.
+ - The numeric or integer attributes on graphs with multiple attributes are no longer converted to characters. They are parsed to the generic numeric format.
+ - Minor wording changes on warnings and error messages.
+ - Updates to the `get_shortest_path()` function, to improve its functionality.
+
 ## RSPPFP 1.0.3
 Stable release of advanced implementation of rsppfp, with minor bug fixes. Released November 2018.
 

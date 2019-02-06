@@ -379,8 +379,8 @@ modify_graph_hsu <- function(g, f, cores = 1L) {
   }
   
   # Remove deleted arcs from here
-  g <- g[!(g$from %in% firstOutput[[2]]$from & g$to %in% firstOutput[[2]]$to),]
-  g <- g[!(g$from %in% secondOutput[[2]]$from & g$to %in% secondOutput[[2]]$to),]
+  g <- dplyr::anti_join(g, firstOutput[[2]], by = c("from", "to"))
+  g <- dplyr::anti_join(g, secondOutput[[2]], by = c("from", "to"))
   
   # Now add the new arcs and return
   return(unique(rbind(g, firstOutput[[1]]) %>% rbind(g, secondOutput[[1]]) %>% rbind(thirdOutput)))

@@ -10,17 +10,18 @@ test_that("Default example", {
                             V3 = c("y", "y", "y", "v"), V4 = c("u", "u", NA, "y"), 
                             V5 = c(NA, NA, NA, "t"), stringsAsFactors = FALSE)
 
-  expected.gStar <- structure(list(from = c("s", "s", "s", "w", "x", "v", "v", "y",  "y", "u", "u|v", 
-                                            "u", "u|w", "w", "x", "x|w", "w|v", "x|w", "x|w|v", 
-                                            "u|v", "u|v|y", "u|w"),
-                                   to = c("u", "w", "x", "y", "y", "y", "t", "t", "u", "u|v", "u|v|y",
-                                          "u|w", "u|v|y", "w|v", "x|w", "x|w|v", "t", "y", "t", "t", "t", "w|v"), 
-                                   cost = c("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", 
-                                            "1", "1", "1", "1", "1", "1", "1", "1", "1", "1")), 
-                              row.names = c("1", "2", "3", "7", "9", "10", "11", "12", "13", "14", "21", "31", 
-                                            "4", "16", "23", "33", "17", "24", "34", "41", "5", "6"),
-                              class = "data.frame")
-
+  expected.gStar <- data.frame(from = c("s", "s", "s", "w", "x", "v", "v", "y", "y", "u", "u|v",
+                                        "u", "u|w", "w", "x", "x|w", "w|v", "x|w", "x|w|v", 
+                                        "u|v", "u|v|y", "u|w"), 
+                               to = c("u", "w", "x", "y", "y", "y", "t", "t", "u", "u|v", 
+                                      "u|v|y", "u|w", "u|v|y", "w|v", "x|w", "x|w|v", "t", 
+                                       "y", "t", "t", "t", "w|v"), 
+                               cost = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+                               stringsAsFactors = FALSE)
+  row.names(expected.gStar) <- c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L, 13L, 23L, 24L, 
+                                            25L, 26L, 27L, 28L, 29L, 30L, 31L)
+  
+  
   expect_equal(modify_graph_hsu(data.graph, data.fpaths), expected.gStar)
 })
 
@@ -34,14 +35,16 @@ test_that("Additional example", {
                             V3 = c("a", "o", "n"), V4 = c("r", "m", "o"), V5 = c("u", NA, NA),
                             stringsAsFactors = FALSE)
 
-  expected.gStar <- data.frame(from = c("c", "c", "u", "t", "a", "r", "e", "e", 
-                                        "e", "i", "i", "n", "o", "u", "u|t", "u|t|a", "p", "p|n", "a", 
-                                        "a|i", "u|t|a", "a|i"), 
-                               to = c("u", "p", "e", "a", "r", "u", "r", "i", "p", "n", "o", "o", "m", "u|t", 
-                                      "u|t|a", "u|t|a|r", "p|n", "p|n|o", "a|i", "a|i|n", "a|i", "o"), 
-                              stringsAsFactors = FALSE)
-  rownames(expected.gStar) <- c("1", "2", "3", "5", "6", "8", "9", "10", "11", "13", "14", "15", "16", 
-                                "17", "22", "32", "4", "52", "62", "7", "18", "23") 
+  expected.gStar <- data.frame(from = c("c", "c", "u", "t", "a", "r", "e", "e", "e", "i", "i", 
+                                            "n", "o", "u", "u|t", "u|t|a", "p", "p|n", "a", 
+                                            "a|i", "u|t|a", "a|i"),
+                               to = c("u", "p", "e", "a", "r", "u", "r", "i", "p", "n", "o", 
+                                      "o", "m", "u|t", "u|t|a", "u|t|a|r", "p|n", "p|n|o", 
+                                          "a|i", "a|i|n", "a|i", "o"),
+                               stringsAsFactors = FALSE)
+   row.names(expected.gStar) <- c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L, 12L, 
+                                  13L, 27L, 28L, 29L, 30L, 31L, 32L, 33L, 34L, 35L)
+  
 
   expect_equal(modify_graph_hsu(data.graph, data.fpaths), expected.gStar)
 })
