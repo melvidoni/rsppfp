@@ -50,4 +50,4 @@ devtools::install_github("melvidoni/rsppfp")
 
 
 ## References
-Available at [References](articles/references.html)
+Available at [References](https://melvidoni.github.io/rsppfp/articles/references.html)
